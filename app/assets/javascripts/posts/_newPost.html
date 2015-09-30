@@ -1,0 +1,12 @@
+<md-dialog flex="40"><form>
+<md-content>
+    <md-input-container> 
+      <label>New question</label>
+        <textarea rows="4" placeholder="What's on your mind?" ng-model="newQuestion.body"></textarea> 
+    </md-input-container>
+  </md-content>
+<div class="md-actions"> 
+    <md-button type="button" ng-click="cancel()">Cancel</md-button> 
+    <md-button type="submit" class="md-primary" ng-click="hide()">Post Question</md-button> 
+</div>
+</form></md-dialog>

@@ -1,0 +1,50 @@
+  <md-sidenav flex="20"></md-sidenav>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>
+          <md-button ng-click="goHome()" aria-label="Go Home">
+          <span flex>Project Washington</span>
+        </md-button>
+        </h2>
+        <form flex ng-submit="go()">
+          <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"></input>
+        <md-autocomplete flex offset="5"
+          ng-disabled="ctrl.isDisabled"
+          md-no-cache="ctrl.noCache"
+          md-selected-item="selectedItem"
+          md-search-text-change="searchTextChange(searchText)"
+          md-search-text="searchText"
+          md-selected-item-change="selectedItemChange(item)"
+          md-items="item in querySearch(searchText)"
+          md-item-text="item.body"
+          md-min-length="0"
+          placeholder="Ask and you shall receive"
+          md-menu-class="autocomplete-custom-template">
+        <md-item-template>
+          <span class="item-title">
+            <ng-md-icon icon="question_answer"></ng-md-icon>
+            <span> <strong>{{item.body}}</strong> </span>
+          </span>
+          <span class="item-metadata">
+            <span class="item-metastat">
+              author: <strong>{{item.author.name}} -</strong>
+            </span>
+            <span class="item-metastat">
+              <strong>{{item.upvotes}}</strong> upvotes
+            </span>
+          </span>
+        </md-item-template>
+        <md-not-found>
+          No matches found for "{{searchText}}".
+        </md-not-found>
+      </md-autocomplete>
+    </form>
+      <span flex></span>
+        <h2>
+          Hello, <span flex ng-bind="sessionInfo.name"></span>
+        </h2>
+        <md-button ng-click="promptNewQuestion()" class="md-icon-button" aria-label="Ask a question">
+          <ng-md-icon icon="add_box"></ng-md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
