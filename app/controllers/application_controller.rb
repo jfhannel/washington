@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   respond_to :json
 
   def angular
-  	if current_user
+  	if current_user or true
     	render 'layouts/application'
     else
     	redirect_to '/user'
