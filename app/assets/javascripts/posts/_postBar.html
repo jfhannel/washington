@@ -1,0 +1,41 @@
+<div layout="row">
+	<div flex="30">
+		<md-button ng-click="upvotePost()" class="md-raised" ng-cloak>
+		Good Question | {{ post.upvotes }}
+		<md-tooltip>
+		upvote
+	</md-tooltip>
+</md-button>
+</div>
+<div flex="40"></div>
+<div flex="30">
+	<md-button ng-click="toggleComments()" class="md-raised" ng-cloak>
+	Comments | {{ post.comments.length }}
+	<md-tooltip>
+	comment
+</md-tooltip>
+</md-button>
+</div>
+</div>
+
+<md-whiteframe ng-show="commentsShown" class="md-whiteframe-8dp">
+<div layout="column" class="md-padding">
+	<div>
+		<form ng-submit="makeComment(newComment)">
+			<md-input-container class="md-icon-float">
+			<label>Comment</label>
+			<ng-md-icon icon="comment" class="add-comment"></ng-md-icon>
+			<input ng-model="newComment" type="text"></input>
+		</md-input-container>
+		<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"></input>
+	</form>
+</div>
+<div class="md-2-line" ng-repeat="comment in post.comments | orderBy :'-upvotes' ">
+	<div><b ng-bind="comment.author.name"></b>
+	</div>
+	<div ng-bind="comment.body">
+	</div>
+	<md-divider ></md-divider>
+</div>
+</div>
+</md-whiteframe>

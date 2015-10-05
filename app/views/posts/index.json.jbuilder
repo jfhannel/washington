@@ -6,5 +6,8 @@ json.posts @posts do |post|
 	end
 	json.comments post.comments do |comment|
 		json.partial! 'comments/comment', comment: comment
+		json.author do
+			json.partial! 'users/user', user: comment.user
+		end	
 	end
 end
