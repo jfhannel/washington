@@ -11,7 +11,7 @@ class UsersController < ApplicationController
     if query.empty?
       @results = []
     else
-      @results = Post.where("body LIKE ?", '%'+query+'%').all.to_a
+      @results = Post.where("body ILIKE ?", '%'+query+'%').all.to_a
     end
   end
 

@@ -1,1 +1,1 @@
-json.(post, :id, :body, :upvotes)
+json.(post, :id, :body)

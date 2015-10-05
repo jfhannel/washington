@@ -1,8 +1,6 @@
 class Post < ActiveRecord::Base
 	belongs_to :user
 	has_many :comments
-
-	#def as_json(options = {})
-  	#end
+	has_many :upvotes, as: :upvotable
 
 end

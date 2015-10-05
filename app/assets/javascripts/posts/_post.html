@@ -1,17 +1,47 @@
-<div layout="row">
-	<div flex class="md-list-item-text" layout="column">
-		<h3 ng-bind="post.body"></h3>
+<md-content>
+<div layout="row" layout-align="center center">
+	<div flex layout="column" layout-align="center start">
+		<a ng-click="navigator.goToPost(post.id)"><b ng-bind="post.body"></b></a>
 		<p ng-bind="post.author.name"></p>
 	</div>
-	<span flex></span>
 	<div flex layout="column" layout-align="center center">
 		<div flex>
-			<md-button ng-click="upvotePost(post)" class="md-icon-button" aria-label="Upvote this post">
+			<md-button ng-click="upvotePost()" class="md-icon-button" aria-label="Upvote this post">
 			<ng-md-icon icon="arrow_drop_up"></ng-md-icon>
-		</md-button>
-	</div>
-	<div flex>
-		<h3 ng-bind="post.upvotes"></h3>
-	</div>
+			<md-tooltip>
+			Upvote
+		</md-tooltip>
+	</md-button>
+</div>
+<div flex>
+	<h3 ng-bind="post.upvotes"></h3>
 </div>
 </div>
+</div>
+<md-whiteframe class="md-whiteframe-8dp">
+<div layout="row">
+	<div flex="10"></div>
+<div flex="50" ng-show="commentsShown">
+	<form ng-submit="makeComment(newComment)">
+	<md-input-container class="md-icon-float">
+		<label>Comment</label>
+		<ng-md-icon icon="comment" class="add-comment"></ng-md-icon>
+		<input ng-model="newComment" type="text">
+	</md-input-container>
+	<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"></input>
+</form>
+	<div layout="column" class="md-padding">
+        <md-subheader class="md-no-sticky">Comments</md-subheader>
+        <md-divider ></md-divider>
+        <div class="md-2-line" ng-repeat="comment in post.comments | orderBy :'-upvotes' ">
+          <div ng-bind="comment.body">
+          </div>
+        <md-divider ></md-divider>
+      </div>
+    </div>
+</div>
+<div flex="40">
+</div>
+</div>
+</md-whiteframe>
+</md-content>

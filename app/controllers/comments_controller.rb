@@ -3,7 +3,9 @@ class CommentsController < ApplicationController
 	def create
 		post = Post.find(params[:post_id])
 		comment = post.comments.create(comment_params)
-		respond_with post, comment
+		comment.user = current_user
+		comment.save
+		@post = post
 	end
 
 	def upvote

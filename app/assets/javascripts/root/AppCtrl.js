@@ -11,10 +11,6 @@ angular.module('washingtonApp')
 'navService',
 function($scope, $rootScope, $mdDialog, $q, $state, search, navService){
 
-	$scope.goHome = function(){
-		$state.go('root.home');
-	};
-
 	$scope.promptNewQuestion = function(){
 		$mdDialog.show({
 			templateUrl: 'posts/_newPost.html',

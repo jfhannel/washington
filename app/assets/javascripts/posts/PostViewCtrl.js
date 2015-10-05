@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('washingtonApp')
-.controller('HomeCtrl', [
-'$rootScope',
+.controller('PostViewCtrl', [
 '$scope',
+'$stateParams',
 'posts',
-function($rootScope, $scope, posts){
+function($scope, $stateParams, posts){	
 
 	$scope.posts = posts.posts;
 

@@ -1,5 +1,6 @@
 json.posts @posts do |post|
 	json.partial! 'post', post: post
+	json.upvotes post.upvotes.length
 	json.author do
 		json.partial! 'users/user', user: post.user
 	end

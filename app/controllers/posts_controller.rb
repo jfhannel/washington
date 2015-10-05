@@ -16,8 +16,13 @@ class PostsController < ApplicationController
 
 	def upvote
 		post = Post.find(params[:id])
-		post.increment!(:upvotes)
-
+		if Upvote.exists(post, current_user)
+			raise "already upvoted"
+		end
+		up = Upvote.new
+		post.upvotes << up
+		current_user.upvotes << up
+		up.save
 		@post = post
 	end
 
