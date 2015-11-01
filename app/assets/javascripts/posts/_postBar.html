@@ -1,4 +1,15 @@
 <div layout="row">
+	<div layout="start center">
+		<md-card>
+	      <img ng-src="{{ sessionInfo.fb_profpic_url }}"></img>
+	    </md-card>
+	</div>
+	<div layout="end center">
+		<h3 ng-bind="'by ' + sessionInfo.name + ' on ' + post.created_at"></h3>
+	</div>
+</div>
+
+<div layout="row">
 	<div flex="30">
 		<md-button ng-click="upvotePost()" class="md-raised" ng-cloak>
 		Good Question | {{ post.upvotes }}

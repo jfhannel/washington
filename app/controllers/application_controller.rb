@@ -7,9 +7,9 @@ class ApplicationController < ActionController::Base
 
   def angular
   	if current_user
-    	render 'layouts/application'
+    	render 'layouts/angular'
     else
-    	redirect_to '/user'
+    	redirect_to '/login'
     end
   end
   

@@ -65,14 +65,31 @@ function($stateProvider, $urlRouterProvider) {
           controller: 'PostViewCtrl'
         }
       }
+    })
+    .state('root.profile', {
+      url: '/profiles/:id',
+      resolve: {
+        postPromise: ['$stateParams', 'users', function($stateParams, users){
+          return users.getUser($stateParams.id);
+        }]
+      },
+      views: {
+        'header': {
+          templateUrl: 'root/_root.html',
+          controller: 'AppCtrl'
+        },
+        'main': {
+          templateUrl: 'profiles/_profile.html',
+          controller: 'ProfileCtrl'
+        }
+      }
     });
     $urlRouterProvider.otherwise('/');
     
 }])
 .run([
-    '$rootScope',
     'sessionService',
-    function($rootScope, sessionService)
+    function(sessionService)
     {
       sessionService.loadSessionInfo();
     }

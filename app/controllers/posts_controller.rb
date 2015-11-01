@@ -7,6 +7,7 @@ class PostsController < ApplicationController
 	def create
 		post = Post.create(post_params)
 		current_user.posts << post;
+		post.save
 		@post = post
 	end
 
@@ -28,7 +29,7 @@ class PostsController < ApplicationController
 
 	private
 	def post_params
-		params.require(:post).permit(:body)
+		params.require(:post).permit(:body, :title)
 	end
 
 end

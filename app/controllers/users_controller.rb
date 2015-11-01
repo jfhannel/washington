@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
 
   def current
-    respond_with current_user
+    @user = current_user
   end
 
   def search
@@ -15,13 +15,24 @@ class UsersController < ApplicationController
     end
   end
 
+  def approve
+    @user = User.find(params[:id])
+    @user.is_public_figure = true
+    @user.save
+  end
+
+  def revoke
+    @user = User.find(params[:id])
+    @user.is_public_figure = false
+    @user.save
+  end
+
   def index
-    render layout: false
   end
 
   # GET /users/:id.:format
   def show
-    # authorize! :read, @user
+    @user = User.find(params[:id])
   end
 
   # GET /users/:id/edit

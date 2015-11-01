@@ -1,15 +1,14 @@
 class User < ActiveRecord::Base
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   has_many :posts
   has_many :comments
   has_many :upvotes
-  
+
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
-
-  # Include default devise modules. Others available are:
-  # :lockable, :timeoutable
-  devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
 
@@ -36,17 +35,27 @@ class User < ActiveRecord::Base
 
       # Create the user if it's a new registration
       if user.nil?
+        p "USER NIL BISHHH"
+        p auth.extra
+        p auth.info
+        p auth.extra.raw_info.age_range.max
         user = User.new(
-          name: auth.extra.raw_info.name,
+          name: auth.info.name,
+          fb_profile_url: auth.extra.raw_info.link,
+          fb_about: auth.info.about,
+          fb_bio: auth.info.bio,
+          fb_age_min: auth.extra.raw_info.age_range.min ? auth.extra.raw_info.age_range.min[1] : nil,
+          fb_profpic_url: auth.info.image,
+          fb_gender: auth.extra.raw_info.gender,
+          fb_verified: auth.info.verified,
+          fb_identity_verified: auth.extra.raw_info.is_verified,
+          is_admin: auth.uid == "10207044223211420" ? true : false,
           #username: auth.info.nickname || auth.uid,
-          email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
+          email: auth.info.email,
           password: Devise.friendly_token[0,20]
         )
-        p user
-        p identity
         #user.skip_confirmation!
         user.save!
-        p user
       end
     end
 

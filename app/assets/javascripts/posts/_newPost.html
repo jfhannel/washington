@@ -1,12 +1,16 @@
 <md-dialog flex="40"><form>
-<md-content>
-    <md-input-container> 
-      <label>New question</label>
-        <textarea rows="4" placeholder="What's on your mind?" ng-model="newQuestion.body"></textarea> 
+  <md-content layout-padding>
+    <md-input-container flex>
+    <label>tl;dr</label>
+    <textarea columns="1" placeholder="Summary/Title" md-maxlength="150" ng-model="newQuestion.title"></textarea> 
+    </md-input-container>
+    <md-input-container flex> 
+    <label>New question</label>
+    <textarea columns="1" placeholder="What's on your mind?" md-maxlength="1000" ng-model="newQuestion.body"></textarea> 
     </md-input-container>
   </md-content>
-<div class="md-actions"> 
+  <div class="md-actions"> 
     <md-button type="button" ng-click="cancel()">Cancel</md-button> 
     <md-button type="submit" class="md-primary" ng-click="hide()">Post Question</md-button> 
-</div>
+  </div>
 </form></md-dialog>

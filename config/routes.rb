@@ -1,8 +1,15 @@
 Rails.application.routes.draw do
 
-  get 'user' => 'users#index'
-
+  devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
+  
   root to: 'application#angular'
+
+  get '/login', to: 'users#index'
+
+  get '/users/current', to: 'users#current'
+  post '/users/search', to: 'users#search'
+  post '/users/approve', to: 'users#approve'
+  post '/users/revoke', to: 'users#revoke'
 
 
   resources :posts, only: [:create, :index, :show] do
@@ -17,10 +24,12 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/users/current', to: 'users#current'
-  post '/users/search', to: 'users#search'
+  resources :users, only: [:show]
 
-  devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
+
+  match "*path", to: "application#angular", via: :all
+
+  # match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

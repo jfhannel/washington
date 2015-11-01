@@ -1,6 +1,12 @@
   <div layout="row">
     <div flex="30"></div>
-    <div flex="40">
+    <div flex="40" layout="column">
+      <md-button ng-click="navigator.goHome()" ng-show="!sessionInfo.is_public_figure || sessionInfo.is_admin">
+          <span flex>Are you a public figure? Request access</span>
+          <md-tooltip>
+          Public Figure Validation
+        </md-tooltip>
+        </md-button>
       <md-content>
       <div layout="column" class="md-padding">
         <md-subheader class="md-no-sticky">Top Questions</md-subheader>

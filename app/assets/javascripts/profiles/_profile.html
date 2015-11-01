@@ -1,0 +1,24 @@
+<md-content>
+<div layout="column">
+	<div>
+		<a ng-href="{{ user.fb_profile_url }}"><h3 ng-bind="user.name"></h3></a>
+	</div>
+
+	<div ng-show="sessionInfo.is_admin">
+		<md-button ng-show="!user.is_public_figure" ng-click="approvePublicFigure()" class="md-raised" ng-cloak>
+			Approve as public figure
+			<md-tooltip>
+				Approve Public Figure
+			</md-tooltip>
+		</md-button>
+		<md-button ng-show="user.is_public_figure" ng-click="revokePublicFigure()" class="md-raised" ng-cloak>
+			Revoke as public figure
+			<md-tooltip>
+				Revoke Public Figure
+			</md-tooltip>
+		</md-button>
+	</div>
+
+</div>
+
+</md-content>

@@ -9,19 +9,14 @@ angular.module('washingtonApp')
 	{
 
 		var me = {};
-		me.sessionInfo = null;
+		me.sessionInfo = { user: null };
 
 		me.loadSessionInfo = function()
 		{
 			return $http.get('/users/current.json').success(function(data){
-	      		me.sessionInfo = data;
-	      		$rootScope.sessionInfo = data;
+	      		me.sessionInfo.user = data.user;
+	      		$rootScope.sessionInfo = me.sessionInfo.user;
 	    	});
-		};
-
-		me.getUserName = function()
-		{
-			return me.sessionInfo ? me.sessionInfo.name : '';
 		};
 
 		$rootScope.sessionService = me;

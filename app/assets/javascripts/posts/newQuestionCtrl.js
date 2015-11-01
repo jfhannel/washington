@@ -9,15 +9,17 @@ angular.module('washingtonApp')
 function($rootScope, $scope, $mdDialog, posts){
 
 	var initQuestion = {
+        title: "",
         body: ""
     };
-    //$scope.newQuestion = initQuestion;
+    $scope.newQuestion = initQuestion;
     
     $scope.hide = function() {
         $mdDialog.hide($scope.newQuestion);
 
-	  	if($scope.newQuestion.body != ''){
+	  	if($scope.newQuestion.title != ''){
 	  		posts.create({
+                title: $scope.newQuestion.title,
 			    body: $scope.newQuestion.body
 		  	});
 		  	$scope.newQuestion = initQuestion;
