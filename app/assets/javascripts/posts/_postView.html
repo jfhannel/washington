@@ -12,9 +12,9 @@
   <md-whiteframe class="md-whiteframe-8dp">
   <div layout="column" class="md-padding">
     <div>
-      <form ng-submit="makeAnswer(newAnswer)">
+      <form ng-show="sessionInfo.user.is_public_figure || sessionInfo.user.is_admin" ng-submit="makeAnswer(newAnswer)">
         <md-input-container class="md-icon-float">
-        <label>Answer</label>
+        <label>Submit Answer</label>
         <ng-md-icon icon="answer" class="add-answer"></ng-md-icon>
         <input ng-model="newAnswer" type="text"></input>
       </md-input-container>
@@ -22,8 +22,11 @@
     </form>
   </div>
   <div class="md-2-line" ng-repeat="answer in posts.post.answers | orderBy :'-upvotes' ">
-    <div>
-      <b ng-bind="answer.author.name+' at '+answer.created_at"></b>
+    <div layout="row" align="center center">
+      <md-card>
+      <img class="md-avatar" ng-src="{{ sessionInfo.user.fb_profpic_url }}"></img>
+    </md-card>
+    <b ng-bind="answer.author.name+' at '+answer.created_at"></b>
     </div>
     <div ng-bind="answer.body">
     </div>

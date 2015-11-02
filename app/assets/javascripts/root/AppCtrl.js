@@ -19,10 +19,10 @@ function($scope, $rootScope, $mdDialog, $q, $state, search, navService){
 		});
 	};
 
-	var searchText = '';
+	var text = '';
 
 	$scope.searchTextChange = function(query){
-		searchText = query;
+		text = query;
 	};
 
 	$scope.selectedItemChange = function(item){
@@ -32,7 +32,7 @@ function($scope, $rootScope, $mdDialog, $q, $state, search, navService){
 	};
 
 	$scope.go = function(){
-        search.search({ query: searchText }).success(function(data){
+        search.posts({ query: text }).success(function(data){
         	if (data.posts.length){
         		goToItem(data.posts[0]);
         	}
@@ -45,7 +45,7 @@ function($scope, $rootScope, $mdDialog, $q, $state, search, navService){
 
 	$scope.querySearch = function(query){
 		var deferred = $q.defer();
-        search.search({ query: query }).success(function(data){
+        search.posts({ query: query }).success(function(data){
         	deferred.resolve(data.posts);
         });
         return deferred.promise;

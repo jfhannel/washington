@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   respond_to :json
 
   def angular
-  	if current_user
+  	if current_user and current_user.fb_token_good
     	render 'layouts/angular'
     else
     	redirect_to '/login'

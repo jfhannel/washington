@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   get '/login', to: 'users#index'
 
   get '/users/current', to: 'users#current'
-  post '/users/search', to: 'users#search'
+  post '/posts/search', to: 'posts#search'
+  post '/users/searchFigures', to: 'users#searchFigures'
   post '/users/approve', to: 'users#approve'
   post '/users/revoke', to: 'users#revoke'
 

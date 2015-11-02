@@ -3,8 +3,9 @@ class AnswersController < ApplicationController
 	def create
 		if current_user.is_public_figure || current_user.is_admin
 			post = Post.find(params[:post_id])
-			answer = post.answers.create(answer_params)
-			answer.user = current_user
+			answer = post.answers.find_by(user_id: current_user[:id])
+			answer.body = answer_params[:body]
+			answer.answered = true
 			answer.save
 			@post = post
 		end

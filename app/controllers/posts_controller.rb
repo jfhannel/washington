@@ -4,9 +4,27 @@ class PostsController < ApplicationController
 		@posts = Post.all
 	end
 
+	def search
+	    query = params[:query]
+	    if query.empty?
+	      @results = []
+	    else
+	      @results = Post.where("body ILIKE ?", '%'+query+'%').all.to_a
+	    end
+	end
+
 	def create
 		post = Post.create(post_params)
 		current_user.posts << post;
+		params[:figures].each do |f|
+			p f
+			return
+			a = Answer.new
+			a.post = post
+			a.user = User.find(f[:id])
+			a.answered = false
+			a.save
+		end
 		post.save
 		@post = post
 	end

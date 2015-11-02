@@ -1,17 +1,41 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
-
   def current
     @user = current_user
   end
 
-  def search
+  def searchFigures
+    oauth_access_token = current_user[:fb_access_token]
+    
     query = params[:query]
-    if query.empty?
-      @results = []
-    else
-      @results = Post.where("body ILIKE ?", '%'+query+'%').all.to_a
+    @results = User.where("name ILIKE ?", '%'+query+'%').all.to_a
+
+    if query.length > 4 #params[:external]
+      @graph = Koala::Facebook::API.new(oauth_access_token,'a2b3a389999ed50c5993edccfb72e9ec')
+      pages = @graph.search(query, {
+          type: :page,
+          fields: ['name', 'category', 'affiliation', 'emails', 'is_verified', 'link', 'likes']
+        })
+      p pages
+      
+      pages.each do |p|
+        if @results.length > 10
+          return
+        else
+          if p['category'] == 'Politician' or p['category'] == 'Public Figure'
+            @results.append({ 
+              id: p['id'], 
+              name: p['name'],
+              email: nil,
+              is_admin: nil,
+              is_public_figure: nil,
+              fb_profile_url: p['link'],
+              fb_profpic_url: nil,
+              external: true })
+          end
+        end
+      end
     end
   end
 

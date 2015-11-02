@@ -68,7 +68,8 @@ Coffee
 Americans coffee is technically coffee-bean tea. Hot water soaks the coffee grains and it drips, so it is technically a tea-like drink. Without 9 bar of pressure the real coffee flavor is not extracted. Being coffee lover I am always interested in trying different beans and brews but I have noticed that most of coffee prepared this way gives me coffee breath. Even American espresso (also mispronounced 'expresso' here) is sour even in yelp rated 5-star coffee shops. 
 Workaround: I bought espresso machine and I buy Italian espresso coffee. When I am out, I look for Italian coffee shops. ],
 	created_at: "2015-10-27 02:56:56", 
-	updated_at: "2015-10-27 02:56:56")
+	updated_at: "2015-10-27 02:56:56",
+	answered: true)
 
 a.user = u
 a.save

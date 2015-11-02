@@ -3,6 +3,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     class_eval %Q{
       def #{provider}
         @user = User.find_for_oauth(env["omniauth.auth"], current_user)
+        if @user.fb_access_token_expire
+          @user.fb_access_token_expire = DateTime.strptime((env["omniauth.auth"].credentials.expires_at.to_f).to_s, '%s')
+          @user.save
+        end
 
         if @user.persisted?
           sign_in_and_redirect @user, event: :authentication

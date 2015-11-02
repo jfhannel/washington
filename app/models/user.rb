@@ -13,6 +13,10 @@ class User < ActiveRecord::Base
 
   validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
 
+  def fb_token_good
+    return (self.fb_access_token_expire - Time.now)/(60.0*60.0*24) > 1.0/24.0
+  end
+
   def self.find_for_oauth(auth, signed_in_resource = nil)
 
     # Get the identity and user if they exist
@@ -36,10 +40,6 @@ class User < ActiveRecord::Base
 
       # Create the user if it's a new registration
       if user.nil?
-        p "USER NIL BISHHH"
-        p auth.extra
-        p auth.info
-        p auth.extra.raw_info.age_range.max
         user = User.new(
           name: auth.info.name,
           fb_profile_url: auth.extra.raw_info.link,
@@ -53,7 +53,9 @@ class User < ActiveRecord::Base
           is_admin: auth.uid == "10207044223211420" ? true : false,
           #username: auth.info.nickname || auth.uid,
           email: auth.info.email,
-          password: Devise.friendly_token[0,20]
+          password: Devise.friendly_token[0,20],
+          fb_access_token: auth.credentials.token,
+          fb_access_token_expire: DateTime.strptime((auth.credentials.expires_at.to_f).to_s, '%s')
         )
         #user.skip_confirmation!
         user.save!

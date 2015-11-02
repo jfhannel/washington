@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151026051653) do
+ActiveRecord::Schema.define(version: 20151102062725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20151026051653) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "answered"
   end
 
   add_index "answers", ["post_id"], name: "index_answers_on_post_id", using: :btree
@@ -92,6 +93,9 @@ ActiveRecord::Schema.define(version: 20151026051653) do
     t.integer  "fb_age_min"
     t.boolean  "is_public_figure",       default: false
     t.boolean  "is_admin",               default: false
+    t.boolean  "external",               default: false
+    t.string   "fb_access_token"
+    t.datetime "fb_access_token_expire"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
