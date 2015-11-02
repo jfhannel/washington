@@ -1,7 +1,7 @@
   <div layout="row">
     <div flex="30"></div>
     <div flex="40" layout="column">
-      <md-button ng-click="navigator.goHome()" ng-show="!sessionInfo.is_public_figure || sessionInfo.is_admin">
+      <md-button ng-click="navigator.goHome()" ng-show="!sessionInfo.user.is_public_figure || sessionInfo.user.is_admin">
           <span flex>Are you a public figure? Request access</span>
           <md-tooltip>
           Public Figure Validation

@@ -88,9 +88,13 @@ function($stateProvider, $urlRouterProvider) {
     
 }])
 .run([
+    '$rootScope',
+    'navService',
     'sessionService',
-    function(sessionService)
+    function($rootScope, navService, sessionService)
     {
+      $rootScope.navigator = navService;
+      $rootScope.sessionInfo = sessionService.sessionInfo;
       sessionService.loadSessionInfo();
     }
   ]);

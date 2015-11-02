@@ -12,8 +12,6 @@
         <form flex ng-submit="go()">
           <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"></input>
         <md-autocomplete flex offset="5"
-          ng-disabled="ctrl.isDisabled"
-          md-no-cache="ctrl.noCache"
           md-selected-item="selectedItem"
           md-search-text-change="searchTextChange(searchText)"
           md-search-text="searchText"
@@ -44,10 +42,10 @@
     </form>
       <span flex></span>
       <md-card>
-      <img ng-src="{{ sessionInfo.fb_profpic_url }}"></img>
+      <img ng-src="{{ sessionInfo.user.fb_profpic_url }}"></img>
     </md-card>
         <h3>
-          Hello, <span flex ng-bind="sessionInfo.name"></span>
+          Hello, <span flex ng-bind="sessionInfo.user.name"></span>
         </h3>
         <md-button ng-click="promptNewQuestion()" class="md-icon-button" aria-label="Ask a question">
         <md-tooltip>

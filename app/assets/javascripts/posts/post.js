@@ -7,7 +7,8 @@ angular.module('washingtonApp')
 	{
 		var o = 
 		{
-	    	posts: []
+	    	posts: [],
+	    	post: null
 	  	};
 
 	  	o.indexInPosts = function(post_id){
@@ -23,6 +24,7 @@ angular.module('washingtonApp')
 	  	o.getPost = function(id) {
 	  		return $http.get('/posts/' + id + '.json').success(function(data){
 	  			o.posts = [data.post];
+	  			o.post = o.posts[0];
 	  		});
 	  	};
 
@@ -33,6 +35,7 @@ angular.module('washingtonApp')
 		};
 
 		o.upvote = function(post) {
+			console.log(post,'upvote');
 		  return $http.put('/posts/' + post.id + '/upvote.json')
 		    .success(
 		    	function(data){
@@ -42,6 +45,12 @@ angular.module('washingtonApp')
 
 		o.comment = function(post, comment) {
 			return $http.post('/posts/' + post.id + '/comments.json', comment).success(function(data){
+				o.posts[o.indexInPosts(data.post.id)] = data.post;
+			});
+		};
+
+		o.answer = function(post, answer) {
+			return $http.post('/posts/' + post.id + '/answers.json', answer).success(function(data){
 				o.posts[o.indexInPosts(data.post.id)] = data.post;
 			});
 		};

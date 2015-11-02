@@ -2,10 +2,9 @@
 
 angular.module('washingtonApp')
 .factory('navService', [
-	'$rootScope',
 	'posts',
 	'$state',
-	function($rootScope, posts, $state)
+	function(posts, $state)
 	{
 		var me = {};
 
@@ -16,8 +15,6 @@ angular.module('washingtonApp')
 		me.goHome = function(){
 			$state.go('root.home');
 		};
-
-		$rootScope.navigator = me;
 
 		return me;
 	}]

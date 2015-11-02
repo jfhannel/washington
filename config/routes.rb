@@ -19,6 +19,12 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :answers, only: [:show, :create] do
+      member do
+        put '/upvote' => 'answers#upvote'
+      end
+    end
+
     member do
       put '/upvote' => 'posts#upvote'
     end

@@ -3,12 +3,10 @@
     <div flex="60">
       <md-content>
       <div layout="column" class="md-padding">
-        <div class="md-2-line" ng-repeat="post in posts | orderBy :'-upvotes' ">
           <div ng-controller="PostCtrl">
-            <pw-post post="post"></pw-post>
+            <pw-post post="posts.post"></pw-post>
           </div>
         <md-divider ></md-divider>
-      </div>
     </div>
   </md-content>
   <md-whiteframe class="md-whiteframe-8dp">
@@ -23,8 +21,9 @@
       <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"></input>
     </form>
   </div>
-  <div class="md-2-line" ng-repeat="answer in post.answers | orderBy :'-upvotes' ">
-    <div><b ng-bind="answer.author.name"></b>
+  <div class="md-2-line" ng-repeat="answer in posts.post.answers | orderBy :'-upvotes' ">
+    <div>
+      <b ng-bind="answer.author.name+' at '+answer.created_at"></b>
     </div>
     <div ng-bind="answer.body">
     </div>

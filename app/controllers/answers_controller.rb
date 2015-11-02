@@ -1,11 +1,12 @@
 class AnswersController < ApplicationController
 
 	def create
-		if current_user.is_admin
-			answer = Answer.create(post_params)
-			current_user.answers << answer;
+		if current_user.is_public_figure || current_user.is_admin
+			post = Post.find(params[:post_id])
+			answer = post.answers.create(answer_params)
+			answer.user = current_user
 			answer.save
-			@answer = answer
+			@post = post
 		end
 	end
 
@@ -26,7 +27,7 @@ class AnswersController < ApplicationController
 	end
 
 	private
-	def post_params
+	def answer_params
 		params.require(:answer).permit(:body)
 	end
 

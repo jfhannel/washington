@@ -11,11 +11,9 @@ angular.module('washingtonApp')
 'navService',
 function($scope, $rootScope, $mdDialog, $q, $state, search, navService){
 
-    console.log($rootScope.sessionInfo);
-
 	$scope.promptNewQuestion = function(){
 		$mdDialog.show({
-			templateUrl: 'posts/_newPost.html',
+			templateUrl: 'posts/new_post/_newPost.html',
 			controller: 'NewQuestionCtrl',
 			clickOutsideToClose: true
 		});

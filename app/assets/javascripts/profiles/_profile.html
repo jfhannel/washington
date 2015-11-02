@@ -4,7 +4,7 @@
 		<a ng-href="{{ user.fb_profile_url }}"><h3 ng-bind="user.name"></h3></a>
 	</div>
 
-	<div ng-show="sessionInfo.is_admin">
+	<div ng-show="$root.sessionInfo.user.is_admin">
 		<md-button ng-show="!user.is_public_figure" ng-click="approvePublicFigure()" class="md-raised" ng-cloak>
 			Approve as public figure
 			<md-tooltip>
