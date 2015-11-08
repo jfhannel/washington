@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151102062725) do
+ActiveRecord::Schema.define(version: 20151108223518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,14 +19,13 @@ ActiveRecord::Schema.define(version: 20151102062725) do
   create_table "answers", force: :cascade do |t|
     t.string   "body"
     t.integer  "post_id"
-    t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean  "answered"
+    t.integer  "answerer_id"
+    t.string   "answerer_type"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   add_index "answers", ["post_id"], name: "index_answers_on_post_id", using: :btree
-  add_index "answers", ["user_id"], name: "index_answers_on_user_id", using: :btree
 
   create_table "comments", force: :cascade do |t|
     t.string   "body"
@@ -58,6 +57,28 @@ ActiveRecord::Schema.define(version: 20151102062725) do
   end
 
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
+
+  create_table "public_figure_users", id: false, force: :cascade do |t|
+    t.integer "public_figures_id"
+    t.integer "users_id"
+  end
+
+  add_index "public_figure_users", ["public_figures_id"], name: "index_public_figure_users_on_public_figures_id", using: :btree
+  add_index "public_figure_users", ["users_id"], name: "index_public_figure_users_on_users_id", using: :btree
+
+  create_table "public_figures", force: :cascade do |t|
+    t.string   "name"
+    t.string   "fb_bio"
+    t.string   "fb_about"
+    t.string   "fb_emails"
+    t.string   "fb_page_url"
+    t.string   "fb_gender"
+    t.boolean  "fb_verified"
+    t.boolean  "fb_identity_verified"
+    t.string   "fb_profpic_url"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
 
   create_table "upvotes", force: :cascade do |t|
     t.integer  "upvotable_id"
@@ -91,9 +112,7 @@ ActiveRecord::Schema.define(version: 20151102062725) do
     t.boolean  "fb_identity_verified"
     t.string   "fb_profpic_url"
     t.integer  "fb_age_min"
-    t.boolean  "is_public_figure",       default: false
     t.boolean  "is_admin",               default: false
-    t.boolean  "external",               default: false
     t.string   "fb_access_token"
     t.datetime "fb_access_token_expire"
   end
@@ -102,7 +121,6 @@ ActiveRecord::Schema.define(version: 20151102062725) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "answers", "posts"
-  add_foreign_key "answers", "users"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "identities", "users"

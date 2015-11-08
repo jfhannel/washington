@@ -4,9 +4,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   has_many :posts
-  has_many :answers
+  has_many :answers, as: :answerer
   has_many :comments
   has_many :upvotes
+  has_and_belongs_to_many :public_figures
 
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/

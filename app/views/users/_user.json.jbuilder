@@ -1,1 +1,1 @@
-json.(user, :id, :name, :email, :is_admin, :is_public_figure, :fb_profile_url, :fb_profpic_url, :external)
+json.(user, :id, :name, :email, :is_admin, :is_public_figure, :fb_profile_url, :fb_profpic_url, :is_page)

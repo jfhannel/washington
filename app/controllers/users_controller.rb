@@ -15,7 +15,7 @@ class UsersController < ApplicationController
       @graph = Koala::Facebook::API.new(oauth_access_token,'a2b3a389999ed50c5993edccfb72e9ec')
       pages = @graph.search(query, {
           type: :page,
-          fields: ['name', 'category', 'affiliation', 'emails', 'is_verified', 'link', 'likes']
+          fields: ['id', 'name', 'category', 'about', 'bio', 'affiliation', 'emails', 'is_verified', 'link', 'likes', 'best_page']
         })
       p pages
       
@@ -25,14 +25,14 @@ class UsersController < ApplicationController
         else
           if p['category'] == 'Politician' or p['category'] == 'Public Figure'
             @results.append({ 
-              id: p['id'], 
+              id: p['id'],
               name: p['name'],
-              email: nil,
+              email: (p['emails'] and p['emails'].length) ? p['emails'][0] : nil,
               is_admin: nil,
               is_public_figure: nil,
               fb_profile_url: p['link'],
               fb_profpic_url: nil,
-              external: true })
+              is_page: true })
           end
         end
       end

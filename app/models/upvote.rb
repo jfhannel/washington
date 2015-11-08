@@ -1,6 +1,6 @@
 class Upvote < ActiveRecord::Base
   belongs_to :user
-  belongs_to :commentable, polymorphic: true
+  belongs_to :upvotable, polymorphic: true
 
   def self.exists(upvotable, user)
   	upvotable.upvotes.each do |up|
