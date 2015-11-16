@@ -26,7 +26,7 @@ class PublicFiguresController < ApplicationController
       @results = PublicFigure.where("name ILIKE ?", '%'+query+'%').all.to_a
 
       if query.length > 4 and doFBSearch #params[:external]
-        @graph = Koala::Facebook::API.new(oauth_access_token, ENV['fb_app_secret'])
+        @graph = Koala::Facebook::API.new(oauth_access_token, ENV['FACEBOOK_SECRET'])
         pages = @graph.search(query, {
             type: :page,
             fields: ['id', 'name', 'category', 'about', 'picture', 'bio', 'affiliation', 'emails', 'is_verified', 'link', 'likes', 'best_page']

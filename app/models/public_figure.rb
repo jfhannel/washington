@@ -5,7 +5,7 @@ class PublicFigure < ActiveRecord::Base
 
 	def self.createFromFBid(fb_id, oauth_access_token)
 		figure = PublicFigure.create!
-		@graph = Koala::Facebook::API.new(oauth_access_token,ENV['fb_app_secret'])
+		@graph = Koala::Facebook::API.new(oauth_access_token,ENV['FACEBOOK_SECRET'])
         page = @graph.get_object(fb_id, {
             fields: ['id', 'name', 'about', 'picture', 'bio', 'emails', 'is_verified', 'link', 'likes', 'best_page']
           })
