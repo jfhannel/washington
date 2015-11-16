@@ -9,7 +9,7 @@ class PostsController < ApplicationController
 	    if query.empty?
 	      @results = []
 	    else
-	      @results = Post.where("body ILIKE ?", '%'+query+'%').all.to_a
+	      @results = Post.where("body ILIKE ?", '%'+query+'%').all.to_a + Post.where("title ILIKE ?", '%'+query+'%').all.to_a
 	    end
 	end
 
