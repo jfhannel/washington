@@ -21,6 +21,10 @@ angular.module('washingtonApp')
 			$state.go('root.profile', { id: $rootScope.sessionInfo.user.id })
 		};
 
+		me.goToPublicFigure = function(id){
+			$state.go('root.figure', { id: id });
+		};
+
 		return me;
 	}]
 );

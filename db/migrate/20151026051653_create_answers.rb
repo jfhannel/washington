@@ -3,8 +3,8 @@ class CreateAnswers < ActiveRecord::Migration
     create_table :answers do |t|
       t.string :body
       t.references :post, index: true, foreign_key: true
-      t.integer :answerer_id
-      t.string :answerer_type
+      t.integer :contributor_id
+      t.string :contributor_type
 
       t.timestamps null: false
     end

@@ -4,8 +4,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   has_many :posts
-  has_many :answers, as: :answerer
-  has_many :comments
+  has_many :answers, as: :contributor
+  has_many :comments, as: :contributor
   has_many :upvotes
   has_many :proxies, -> { distinct }
   has_many :public_figures, -> { distinct }, through: :proxies

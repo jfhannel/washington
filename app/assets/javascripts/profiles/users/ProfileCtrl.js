@@ -10,10 +10,8 @@ function($scope, profiles, userPromise){
     $scope.taggedFigures = [];
 
     $scope.approveProxy = function(figures){
-        console.log(figures);
         profiles.approveForFigures($scope.user, figures).then(function(user){
             $scope.user = user;
-            console.log(user);
             $scope.taggedFigures = [];
         });
     };
@@ -26,23 +24,11 @@ function($scope, profiles, userPromise){
     };
 
     $scope.approvedFigures = function(){
-        var figs = [];
-        for (var i=0; i<$scope.user.proxies.length; i++){
-            if ($scope.user.proxies[i].approved){
-                figs.push($scope.user.proxies[i]);
-            }
-        }
-        return figs;
+        return profiles.approvedFiguresForUser($scope.user);
     };
 
     $scope.requestedFigures = function(){
-        var figs = [];
-        for (var i=0; i<$scope.user.proxies.length; i++){
-            if (!($scope.user.proxies[i].approved)){
-                figs.push($scope.user.proxies[i]);
-            }
-        }
-        return figs;
+        return profiles.requestedFiguresForUser($scope.user);
     };
 
 }]);

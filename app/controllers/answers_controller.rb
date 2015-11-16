@@ -2,10 +2,13 @@ class AnswersController < ApplicationController
 
 	def create
 		post = Post.find(params[:post_id])
-		answer = post.answers.create!(user_id: current_user[:id])
-		answer.body = answer_params[:body]
+		answer = post.answers.new
+		answer.body = params[:body]
+		answer.contributor_id = params[:contributor][:id]
+		answer.contributor_type = params[:contributor][:type]
 		answer.save
 		@post = post
+		render 'posts/show'
 	end
 
 	def show
@@ -26,7 +29,7 @@ class AnswersController < ApplicationController
 
 	private
 	def answer_params
-		params.require(:answer).permit(:body)
+		params.require(:answer).permit(:body, contributor: [:id, :type])
 	end
 
 end

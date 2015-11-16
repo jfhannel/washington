@@ -50,7 +50,7 @@ angular.module('washingtonApp')
 		o.answer = function(post, answer) {
 			var d = $q.defer();
 			$http.post('/posts/' + post.id + '/answers.json', answer).success(function(data){
-				o.posts[o.indexInPosts(data.post.id)] = data.post;
+				d.resolve(data.post);
 			});
 			return d.promise;
 		};

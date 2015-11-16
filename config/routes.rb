@@ -36,6 +36,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show]
   resources :public_figures, only: [:show]
+  resources :proxies
 
   match "*path", to: "application#angular", via: :all
 

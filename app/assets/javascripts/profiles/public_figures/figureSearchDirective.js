@@ -3,13 +3,14 @@ angular.module('washingtonApp')
   return {
     restrict: 'E',
     scope: {
-        taggedFigures: '='
+        taggedFigures: '=',
+        searchFb: '='
     },
     link: function($scope,$element,$attr) {
         
         $scope.suggestedFigures = [];
         $scope.searchText = '';
-
+        console.log($scope.searchFb);
         $scope.removeFigure = function(figure){
             var index = $scope.taggedFigures.indexOf(figure);
             if (index > -1){
@@ -17,8 +18,8 @@ angular.module('washingtonApp')
             }
         };
 
-        $scope.searchTextChange = function(fbSearch){
-            $scope.querySearch(true);
+        $scope.searchTextChange = function(){
+            $scope.querySearch($scope.searchFb);
             /*
             if (fbSearch) {
                 $scope.querySearch(true);
@@ -63,10 +64,22 @@ angular.module('washingtonApp')
             for (i=0; i<$scope.taggedFigures.length; i++){
                 fb_ids.push($scope.taggedFigures[i].fb_id);
             }
+            var sug_ids = [];
+            var dupeIds = [];
+            for (i=0; i<figures.length; i++){
+                if (sug_ids.indexOf(figures[i].fb_id) > -1) {
+                    dupeIds.push(figures[i].fb_id);
+                } else {
+                    sug_ids.push(figures[i].fb_id);
+                }
+            }
             var newfigs = [];
             for (i=0; i<figures.length; i++){
                 if (fb_ids.indexOf(figures[i].fb_id) == -1){
-                    newfigs.push(figures[i]);
+                    if (dupeIds.indexOf(figures[i].fb_id) == -1 || figures[i].id)
+                    {
+                        newfigs.push(figures[i]);
+                    }
                 }
             }
             return newfigs;     

@@ -9,7 +9,6 @@ class PublicFigure < ActiveRecord::Base
         page = @graph.get_object(fb_id, {
             fields: ['id', 'name', 'about', 'picture', 'bio', 'emails', 'is_verified', 'link', 'likes', 'best_page']
           })
-        p page
         figure[:fb_id] = page['id']
         figure[:name] = page['name']
         figure[:fb_about] = page['about']

@@ -2,10 +2,13 @@ class CommentsController < ApplicationController
 
 	def create
 		post = Post.find(params[:post_id])
-		comment = post.comments.create(comment_params)
-		comment.user = current_user
+		comment = post.comments.new
+		comment.body = params[:body]
+		comment.contributor_id = params[:contributor][:id]
+		comment.contributor_type = params[:contributor][:type]
 		comment.save
 		@post = post
+		render 'posts/show'
 	end
 
 	def upvote
@@ -18,7 +21,7 @@ class CommentsController < ApplicationController
 
 	private
 	def comment_params
-		params.require(:comment).permit(:body)
+		params.require(:comment).permit(:body, contributor: [:id, :type])
 	end
 
 end

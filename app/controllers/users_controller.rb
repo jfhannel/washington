@@ -7,8 +7,16 @@ class UsersController < ApplicationController
   end
 
   def approveForFigures
-    figures = PublicFigure.find(params[:ids])
+    fb_ids = params[:fb_ids]
     user = User.find(params[:user_id])
+    figures = []
+    fb_ids.each do |fb_id|
+      fig = PublicFigure.find_by fb_id: fb_id
+      if fig.nil?
+        fig = PublicFigure.createFromFBid(fb_id, current_user[:fb_access_token])
+      end
+      figures << fig
+    end
     figures.each do |f|
       proxy = Proxy.find_by user_id: user[:id], public_figure_id: f[:id]
       if proxy.nil?
@@ -24,8 +32,16 @@ class UsersController < ApplicationController
   end
 
   def revokeForFigures
-    figures = PublicFigure.find(params[:ids])
+    fb_ids = params[:fb_ids]
     user = User.find(params[:user_id])
+    figures = []
+    fb_ids.each do |fb_id|
+      fig = PublicFigure.find_by fb_id: fb_id
+      if fig.nil?
+        fig = PublicFigure.createFromFBid(fb_id, current_user[:fb_access_token])
+      end
+      figures << fig
+    end
     figures.each do |f|
       proxy = Proxy.find_by user_id: user[:id], public_figure_id: f[:id]
       if not proxy.nil?
