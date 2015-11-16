@@ -6,9 +6,10 @@ angular.module('washingtonApp')
 '$scope',
 '$mdDialog',
 '$q',
+'$window',
 'posts',
 'search',
-function($rootScope, $scope, $mdDialog, $q, posts, search){
+function($rootScope, $scope, $mdDialog, $q, $window, posts, search){
 
 	var initQuestion = {
         title: "",
@@ -30,6 +31,7 @@ function($rootScope, $scope, $mdDialog, $q, posts, search){
                 figures: $scope.taggedFigures
 		  	});
 		  	$scope.newQuestion = initQuestion;
+            $window.location.reload();
 	  	}
     };
     
