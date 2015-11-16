@@ -1,0 +1,61 @@
+<div layout="row">
+    <div flex="30"></div>
+    <div flex="40" layout="column">
+		<md-content>
+			<div layout="column" layout-align="center center" layout-padding layout-margin>
+				<div>
+			      <img class="md-avatar" ng-src="{{ sessionInfo.user.fb_profpic_url }}"></img>
+			  	</div>
+				<div>
+					<a ng-href="{{ user.fb_profile_url }}"><h3 ng-bind="user.name"></h3></a>
+				</div>
+			</div>
+
+			<pw-figure-search tagged-figures="taggedFigures"></pw-figure-search>
+			<div ng-show="$root.sessionInfo.user.is_admin">
+				<div layout="row">
+					<md-button ng-click="approveProxy(taggedFigures)" class="md-raised" ng-cloak>
+						Grant proxy
+					</md-button>
+					<md-button ng-click="revokeProxy(taggedFigures)" class="md-raised" ng-cloak>
+						Revoke proxy
+					</md-button>
+				</div>
+			</div>
+
+			<div ng-show="!($root.sessionInfo.user.is_admin)">
+				<md-button ng-click="approveProxy(taggedFigures)" class="md-raised" ng-cloak>
+					Request proxy
+				</md-button>
+			</div>
+
+			<md-list>
+		      <md-subheader class="md-no-sticky">Approved Proxies</md-subheader>
+		      <md-list-item class="md-2-line" ng-repeat="figure in approvedFigures()">
+		        <img ng-src="{{ figure.fb_profpic_url }}" class="md-avatar" />
+		        <div class="md-list-item-text" layout="column">
+		          <h3>{{ figure.name }}</h3>
+		        </div>
+		        <md-button ng-show="$root.sessionInfo.user.is_admin" ng-click="revokeProxy([figure])">
+		        Revoke
+		    	</md-button>
+		      </md-list-item>
+		    </md-list>
+
+		    <md-list>
+		      <md-subheader class="md-no-sticky">Requested Proxies</md-subheader>
+		      <md-list-item class="md-2-line" ng-repeat="figure in requestedFigures()">
+		        <img ng-src="{{ figure.fb_profpic_url }}" class="md-avatar" />
+		        <div class="md-list-item-text" layout="column">
+		          <h3>{{ figure.name }}</h3>
+		        </div>
+		        <md-button ng-show="$root.sessionInfo.user.is_admin" ng-click="approveProxy([figure])">
+		        Approve
+		    	</md-button>
+		      </md-list-item>
+		    </md-list>
+
+		</md-content>
+	</div>
+<div flex="30"></div>
+</div>

@@ -8,9 +8,12 @@ Rails.application.routes.draw do
 
   get '/users/current', to: 'users#current'
   post '/posts/search', to: 'posts#search'
-  post '/users/searchFigures', to: 'users#searchFigures'
-  post '/users/approve', to: 'users#approve'
-  post '/users/revoke', to: 'users#revoke'
+  post '/searchFigures', to: 'public_figures#searchFigures'
+  post '/users/approveForFigures', to: 'users#approveForFigures'
+  post '/users/revokeForFigures', to: 'users#revokeForFigures'
+
+  post '/public_figures/approve', to: 'public_figures#approve'
+  post '/public_figures/revoke', to: 'public_figures#revoke'
 
 
   resources :posts, only: [:create, :index, :show] do
@@ -32,7 +35,7 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:show]
-
+  resources :public_figures, only: [:show]
 
   match "*path", to: "application#angular", via: :all
 

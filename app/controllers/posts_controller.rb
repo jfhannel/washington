@@ -14,19 +14,24 @@ class PostsController < ApplicationController
 	end
 
 	def create
-		post = Post.create(post_params)
+		post = Post.new
+		post.title = post_params[:title]
+		post.body = post_params[:body]
+		post.save
 		current_user.posts << post;
 		params[:figures].each do |f|
-			p f
-			return
-			a = Answer.new
-			a.post = post
-			a.user = User.find(f[:id])
-			a.answered = false
-			a.save
+			if f[:id].nil?
+				fig = PublicFigure.createFromFBid(f[:fb_id],current_user[:fb_access_token])
+			else
+				fig = PublicFigure.find(f[:id])
+			end
+	
+			fig.posts << post
+			p fig
+			fig.save
 		end
-		post.save
 		@post = post
+		render 'show'
 	end
 
 	def show
@@ -43,11 +48,12 @@ class PostsController < ApplicationController
 		current_user.upvotes << up
 		up.save
 		@post = post
+		render 'show'
 	end
 
 	private
 	def post_params
-		params.require(:post).permit(:body, :title)
+		params.require(:post).permit(:body, :title, figures: [:id, :fb_id, :name, :fb_profile_url, :fb_profpic_url, :fb_bio, :fb_about, :fb_emails])
 	end
 
 end

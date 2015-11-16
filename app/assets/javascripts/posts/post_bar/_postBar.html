@@ -11,7 +11,7 @@
 
 <div layout="row">
 	<div flex="30">
-		<md-button ng-click="upvotePost(post)" class="md-raised" ng-cloak>
+		<md-button ng-click="upvotePost()" class="md-raised" ng-cloak>
 		Good Question | {{ post.upvotes }}
 		<md-tooltip>
 		upvote
@@ -32,7 +32,7 @@
 <md-whiteframe ng-show="commentsShown" class="md-whiteframe-8dp">
 <div layout="column" class="md-padding">
 	<div>
-		<form ng-submit="makeComment(post, newComment)">
+		<form ng-submit="makeComment(newComment)">
 			<md-input-container class="md-icon-float">
 			<label>Comment</label>
 			<ng-md-icon icon="comment" class="add-comment"></ng-md-icon>

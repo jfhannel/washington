@@ -3,37 +3,10 @@
     <div flex="60">
       <md-content>
       <div layout="column" class="md-padding">
-          <div ng-controller="PostCtrl">
-            <pw-post post="posts.post"></pw-post>
-          </div>
+          <pw-post post="post"></pw-post>
         <md-divider ></md-divider>
     </div>
   </md-content>
-  <md-whiteframe class="md-whiteframe-8dp">
-  <div layout="column" class="md-padding">
-    <div>
-      <form ng-show="sessionInfo.user.is_public_figure || sessionInfo.user.is_admin" ng-submit="makeAnswer(newAnswer)">
-        <md-input-container class="md-icon-float">
-        <label>Submit Answer</label>
-        <ng-md-icon icon="answer" class="add-answer"></ng-md-icon>
-        <input ng-model="newAnswer" type="text"></input>
-      </md-input-container>
-      <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"></input>
-    </form>
-  </div>
-  <div class="md-2-line" ng-repeat="answer in posts.post.answers | orderBy :'-upvotes' ">
-    <div layout="row" align="center center">
-      <md-card>
-      <img class="md-avatar" ng-src="{{ sessionInfo.user.fb_profpic_url }}"></img>
-    </md-card>
-    <b ng-bind="answer.author.name+' at '+answer.created_at"></b>
-    </div>
-    <div ng-bind="answer.body">
-    </div>
-    <md-divider ></md-divider>
-  </div>
-  </div>
-</md-whiteframe>
 </div>
 <div flex="20"></div>
 </div>

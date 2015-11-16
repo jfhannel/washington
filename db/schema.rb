@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151108223518) do
+ActiveRecord::Schema.define(version: 20151109010531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,26 +58,39 @@ ActiveRecord::Schema.define(version: 20151108223518) do
 
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
-  create_table "public_figure_users", id: false, force: :cascade do |t|
-    t.integer "public_figures_id"
-    t.integer "users_id"
+  create_table "posts_public_figures", id: false, force: :cascade do |t|
+    t.integer "public_figure_id"
+    t.integer "post_id"
   end
 
-  add_index "public_figure_users", ["public_figures_id"], name: "index_public_figure_users_on_public_figures_id", using: :btree
-  add_index "public_figure_users", ["users_id"], name: "index_public_figure_users_on_users_id", using: :btree
+  add_index "posts_public_figures", ["post_id"], name: "index_posts_public_figures_on_post_id", using: :btree
+  add_index "posts_public_figures", ["public_figure_id"], name: "index_posts_public_figures_on_public_figure_id", using: :btree
+
+  create_table "proxies", force: :cascade do |t|
+    t.integer  "public_figure_id"
+    t.integer  "user_id"
+    t.boolean  "approved",         default: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  add_index "proxies", ["public_figure_id"], name: "index_proxies_on_public_figure_id", using: :btree
+  add_index "proxies", ["user_id"], name: "index_proxies_on_user_id", using: :btree
 
   create_table "public_figures", force: :cascade do |t|
     t.string   "name"
     t.string   "fb_bio"
     t.string   "fb_about"
     t.string   "fb_emails"
-    t.string   "fb_page_url"
-    t.string   "fb_gender"
+    t.string   "fb_profile_url"
     t.boolean  "fb_verified"
-    t.boolean  "fb_identity_verified"
+    t.boolean  "verified",       default: false
+    t.integer  "fb_likes"
     t.string   "fb_profpic_url"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.string   "fb_id"
+    t.string   "fb_best_page"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   create_table "upvotes", force: :cascade do |t|

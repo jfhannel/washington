@@ -69,8 +69,8 @@ function($stateProvider, $urlRouterProvider) {
     .state('root.profile', {
       url: '/profiles/:id',
       resolve: {
-        postPromise: ['$stateParams', 'users', function($stateParams, users){
-          return users.getUser($stateParams.id);
+        userPromise: ['$stateParams', 'profiles', function($stateParams, profiles){
+          return profiles.getUser($stateParams.id);
         }]
       },
       views: {
@@ -79,8 +79,26 @@ function($stateProvider, $urlRouterProvider) {
           controller: 'AppCtrl'
         },
         'main': {
-          templateUrl: 'profiles/_profile.html',
+          templateUrl: 'profiles/users/_profile.html',
           controller: 'ProfileCtrl'
+        }
+      }
+    })
+    .state('root.figure', {
+      url: '/publicfigures/:id',
+      resolve: {
+        figurePromise: ['$stateParams', 'profiles', function($stateParams, profiles){
+          return profiles.getPublicFigure($stateParams.id);
+        }]
+      },
+      views: {
+        'header': {
+          templateUrl: 'root/_root.html',
+          controller: 'AppCtrl'
+        },
+        'main': {
+          templateUrl: 'profiles/public_figures/_public_figure_profile.html',
+          controller: 'PublicFigureProfileCtrl'
         }
       }
     });

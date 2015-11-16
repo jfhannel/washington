@@ -8,39 +8,9 @@
     <label>New question</label>
     <textarea columns="1" placeholder="What's on your mind?" md-maxlength="1000" ng-model="newQuestion.body"></textarea> 
     </md-input-container>
-    <md-autocomplete flex
-          ng-disabled=""
-          md-no-cache="false"
-          md-autoselect="true"
-          md-selected-item="selectedItem"
-          md-search-text-change="searchTextChange(titleText)"
-          md-search-text="titleText"
-          md-selected-item-change="selectedItemChange(item)"
-          md-items="item in querySearch()"
-          md-item-text="item.name"
-          md-min-length="0"
-          placeholder="Tag Public Figures"
-          md-menu-class="autocomplete-custom-template">
-        <md-item-template>
-          <span class="item-title">
-            <ng-md-icon icon="question_answer"></ng-md-icon>
-            <span> <strong>{{item.name}}</strong> </span>
-          </span>
-        </md-item-template>
-        <md-not-found>
-          No public figures found for "{{searchText}}".
-        </md-not-found>
-      </md-autocomplete>
-      <md-list>
-      <md-subheader class="md-no-sticky">Tagged Public Figures</md-subheader>
-      <md-list-item class="md-2-line" ng-repeat="item in taggedFigures">
-        <img ng-src="{{item.fb_profpic_url}}" class="md-avatar" />
-        <div class="md-list-item-text" layout="column">
-          <h3>{{ item.name }}</h3>
-          <p>see response</p>
-        </div>
-      </md-list-item>
-    </md-list>
+
+      <pw-figure-search tagged-figures="taggedFigures" ></pw-figure-search>
+    
   </md-content>
   <div class="md-actions"> 
     <md-button type="button" ng-click="cancel()">Cancel</md-button> 

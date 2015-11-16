@@ -5,9 +5,10 @@ angular.module('washingtonApp')
 '$scope',
 '$stateParams',
 'posts',
-function($scope, $stateParams, posts){	
+'postPromise',
+function($scope, $stateParams, posts, postPromise){	
 
-	$scope.posts = posts;
+	$scope.post = postPromise;
 
     $scope.makeAnswer = function(body){
         if (body){

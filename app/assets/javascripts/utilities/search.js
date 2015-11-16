@@ -12,7 +12,7 @@ angular.module('washingtonApp')
 		};
 
 		me.publicFigures = function(query) {
-		  	return $http.post('/users/searchFigures.json', query);
+		  	return $http.post('/searchFigures.json', query);
 		};
 
 	  	return me;

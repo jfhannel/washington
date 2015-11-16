@@ -7,7 +7,8 @@ class User < ActiveRecord::Base
   has_many :answers, as: :answerer
   has_many :comments
   has_many :upvotes
-  has_and_belongs_to_many :public_figures
+  has_many :proxies, -> { distinct }
+  has_many :public_figures, -> { distinct }, through: :proxies
 
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/

@@ -2,57 +2,57 @@
 
 angular.module('washingtonApp')
 .factory('posts', [
-	'$http', 
-	function($http)
+	'$http', '$q',
+	function($http, $q)
 	{
-		var o = 
-		{
-	    	posts: [],
-	    	post: null
-	  	};
-
-	  	o.indexInPosts = function(post_id){
-	  		return o.posts.findIndex(function(element, index, array){ return element.id == post_id; });
-	  	};
+		var o = {};
 	 	
 	 	o.getAll = function() {
-	    	return $http.get('/posts.json').success(function(data){
-	    		o.posts = data.posts;
+	 		var d = $q.defer();
+	    	$http.get('/posts.json').success(function(data){
+	    		d.resolve(data.posts);
 	    	});
+	    	return d.promise;
 	  	};
 
 	  	o.getPost = function(id) {
-	  		return $http.get('/posts/' + id + '.json').success(function(data){
-	  			o.posts = [data.post];
-	  			o.post = o.posts[0];
+	  		var d = $q.defer();
+	  		$http.get('/posts/' + id + '.json').success(function(data){
+	  			d.resolve(data.post);
 	  		});
+	  		return d.promise;
 	  	};
 
 	  	o.create = function(post) {
-		  	return $http.post('/posts.json', post).success(function(data){
-		    	o.posts.push(data.post);
+	  		var d = $q.defer();
+		  	$http.post('/posts.json', post).success(function(data){
+		    	d.resolve(data.post);
 		  	});
+		  	return d.promise;
 		};
 
 		o.upvote = function(post) {
-			console.log(post,'upvote');
-		  return $http.put('/posts/' + post.id + '/upvote.json')
-		    .success(
-		    	function(data){
-			      	o.posts[o.indexInPosts(data.post.id)] = data.post;
-			    });
+			var d = $q.defer();
+			$http.put('/posts/' + post.id + '/upvote.json').success(function(data){
+		      	d.resolve(data.post);
+			});
+			return d.promise;
 		};
 
 		o.comment = function(post, comment) {
-			return $http.post('/posts/' + post.id + '/comments.json', comment).success(function(data){
-				o.posts[o.indexInPosts(data.post.id)] = data.post;
+			var d = $q.defer();
+			$http.post('/posts/' + post.id + '/comments.json', comment).success(function(data){
+				d.resolve(data.post);
 			});
+			return d.promise;
 		};
 
 		o.answer = function(post, answer) {
-			return $http.post('/posts/' + post.id + '/answers.json', answer).success(function(data){
+			var d = $q.defer();
+			$http.post('/posts/' + post.id + '/answers.json', answer).success(function(data){
 				o.posts[o.indexInPosts(data.post.id)] = data.post;
 			});
+			return d.promise;
 		};
 
 	  	return o;

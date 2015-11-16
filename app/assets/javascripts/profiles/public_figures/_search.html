@@ -1,0 +1,36 @@
+<md-autocomplete flex
+    ng-disabled="false"
+    md-no-cache="true"
+    md-autoselect="true"
+    md-selected-item="selectedItem"
+    md-search-text-change="searchTextChange(true)"
+    md-search-text="searchText"
+    md-selected-item-change="figureSelected(item)"
+    md-items="item in suggestedFigures"
+    md-item-text="item.name"
+    md-min-length="0"
+    placeholder="Select Public Figures"
+    md-menu-class="autocomplete-custom-template">
+  <md-item-template>
+    <div layout="row" layout-padding align="start center" class="item-title">
+      <img class="md-avatar" ng-src="{{ item.fb_profpic_url }}"></img>
+      <span> <strong>{{item.name}}</strong> - {{item.fb_about}} </span>
+    </div>
+  </md-item-template>
+  <md-not-found>
+    No public figures found for "{{searchText}}".
+  </md-not-found>
+</md-autocomplete>
+<md-list>
+      <md-subheader class="md-no-sticky">Selected Public Figures</md-subheader>
+      <md-list-item class="md-2-line" ng-repeat="item in taggedFigures">
+        <img ng-src="{{item.fb_profpic_url}}" class="md-avatar" />
+        <div class="md-list-item-text" layout="column">
+          <h3>{{ item.name }}</h3>
+          <p>see response</p>
+        </div>
+        <md-button ng-click="removeFigure(item)">
+          Remove
+        </md-button>
+      </md-list-item>
+    </md-list>

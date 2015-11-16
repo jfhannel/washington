@@ -1,0 +1,1 @@
+json.(public_figure, :id, :name, :verified, :fb_likes, :fb_best_page, :fb_id, :fb_emails, :fb_bio, :fb_about, :fb_profile_url, :fb_profpic_url)

@@ -5,8 +5,9 @@ angular.module('washingtonApp')
 '$rootScope',
 '$scope',
 'posts',
-function($rootScope, $scope, posts){
-
-	$scope.posts = posts.posts;
+'postPromise',
+function($rootScope, $scope, posts, postPromise){
+    
+    $scope.posts = postPromise;
 
 }]);

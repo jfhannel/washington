@@ -2,9 +2,10 @@
 
 angular.module('washingtonApp')
 .factory('navService', [
-	'posts',
+	'$rootScope',
 	'$state',
-	function(posts, $state)
+	'posts',
+	function($rootScope, $state, posts)
 	{
 		var me = {};
 
@@ -14,6 +15,10 @@ angular.module('washingtonApp')
 
 		me.goHome = function(){
 			$state.go('root.home');
+		};
+
+		me.goToCurrentUserProfile = function(){
+			$state.go('root.profile', { id: $rootScope.sessionInfo.user.id })
 		};
 
 		return me;

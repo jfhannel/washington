@@ -3,52 +3,38 @@ class UsersController < ApplicationController
 
   def current
     @user = current_user
+    render 'show'
   end
 
-  def searchFigures
-    oauth_access_token = current_user[:fb_access_token]
-    
-    query = params[:query]
-    @results = User.where("name ILIKE ?", '%'+query+'%').all.to_a
+  def approveForFigures
+    figures = PublicFigure.find(params[:ids])
+    user = User.find(params[:user_id])
+    figures.each do |f|
+      proxy = Proxy.find_by user_id: user[:id], public_figure_id: f[:id]
+      if proxy.nil?
+        proxy = Proxy.new
+        proxy.user_id = user[:id]
+        proxy.public_figure_id = f[:id]
+      end
+      proxy.approved = current_user.is_admin
+      proxy.save
+    end
+    @user = user
+    render 'show'
+  end
 
-    if query.length > 4 #params[:external]
-      @graph = Koala::Facebook::API.new(oauth_access_token,'a2b3a389999ed50c5993edccfb72e9ec')
-      pages = @graph.search(query, {
-          type: :page,
-          fields: ['id', 'name', 'category', 'about', 'bio', 'affiliation', 'emails', 'is_verified', 'link', 'likes', 'best_page']
-        })
-      p pages
-      
-      pages.each do |p|
-        if @results.length > 10
-          return
-        else
-          if p['category'] == 'Politician' or p['category'] == 'Public Figure'
-            @results.append({ 
-              id: p['id'],
-              name: p['name'],
-              email: (p['emails'] and p['emails'].length) ? p['emails'][0] : nil,
-              is_admin: nil,
-              is_public_figure: nil,
-              fb_profile_url: p['link'],
-              fb_profpic_url: nil,
-              is_page: true })
-          end
-        end
+  def revokeForFigures
+    figures = PublicFigure.find(params[:ids])
+    user = User.find(params[:user_id])
+    figures.each do |f|
+      proxy = Proxy.find_by user_id: user[:id], public_figure_id: f[:id]
+      if not proxy.nil?
+        proxy.approved = false
+        proxy.save
       end
     end
-  end
-
-  def approve
-    @user = User.find(params[:id])
-    @user.is_public_figure = true
-    @user.save
-  end
-
-  def revoke
-    @user = User.find(params[:id])
-    @user.is_public_figure = false
-    @user.save
+    @user = user
+    render 'show'
   end
 
   def index
