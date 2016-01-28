@@ -1,30 +1,50 @@
 'use strict';
 
-angular.module('washingtonApp')
-.factory('navService', [
-	'$rootScope',
-	'$state',
+angular.module('pw.app')
+.factory('navService', ['$location',
 	'posts',
-	function($rootScope, $state, posts)
-	{
-		var me = {};
+	'sessionService',
+function($location,
+		 posts,
+		 sessionService) {
 
-		me.goToPost = function(id){
-			$state.go('root.post', { id: id });
+	var ROUTES = {
+		Home: '/',
+        Post: '/posts',
+        Profile: '/profiles',
+        PublicFigure: '/publicfigures'		
+	};
+
+	var me = {};
+
+	function goToFunction(routeKey) {
+		return function(id) {
+			var path = ROUTES[routeKey];
+
+			console.log(routeKey, path);
+
+			if (!path) {
+				return;
+			}
+
+			if (!!id) {
+				path += '/' + id.toString();
+			}
+
+			console.log(path);
+
+			$location.path(path);
 		};
+	}
 
-		me.goHome = function(){
-			$state.go('root.home');
-		};
+	for (var routeKey in ROUTES) {
+		me['goTo' + routeKey] = goToFunction(routeKey);
+	}
 
-		me.goToCurrentUserProfile = function(){
-			$state.go('root.profile', { id: $rootScope.sessionInfo.user.id })
-		};
+	me.goToCurrentUserProfile = function() {
+		console.log('aaa');
+		me.goToProfile(sessionService.getCurrentUser().id);
+	};
 
-		me.goToPublicFigure = function(id){
-			$state.go('root.figure', { id: id });
-		};
-
-		return me;
-	}]
-);
+	return me;
+}]);

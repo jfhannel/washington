@@ -1,11 +1,11 @@
 <md-content>
 <div layout="column">
 	<div>
-		<a ng-click="$root.navigator.goToPost(post.id)"><h3 ng-bind="post.title"></h3></a>
+		<a ng-click="navService.goToPost(post.id)"><h3 ng-bind="post.title"></h3></a>
 		<div layout="row" layout-align="center center">
 			<div layout="column">
 				<div ng-repeat="figure in post.public_figures">
-					<b ng-bind="'@'+figure.name" ng-click="$root.navigator.goToPublicFigure(figure.id)"></b>
+					<b ng-bind="'@'+figure.name" ng-click="navService.goToPublicFigure(figure.id)"></b>
 				</div>
 			</div>
 			<div flex></div>

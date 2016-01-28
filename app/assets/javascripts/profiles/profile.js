@@ -1,100 +1,87 @@
 'use strict';
 
-angular.module('washingtonApp')
-.factory('profiles', [
-	'$http', '$q', 
-	function($http, $q)
-	{
-		var o = {};
+angular.module('pw.app')
+.factory('profiles', ['$http',
+function($http) {
+	
+	var o = {};
 
-		o.getProxyRequests = function() {
-			var d = $q.defer();
-			$http.get('/proxies.json').success(function(data){
-				d.resolve(data.proxies);
+	o.getProxyRequests = function() {
+		return $http.get('/proxies.json')
+		.then(function(response) {
+			return response.data.proxies;
+		});
+	};
+
+	o.getUser = function(id) {
+  		return $http.get('/users/' + id + '.json')
+  		.then(function(response) {
+  			return response.data.user;
+  		});
+  	};
+
+	o.getPublicFigure = function(id) {
+		return $http.get('/public_figures/' + id + '.json')
+		.then(function(response) {
+			return response.data.public_figure;
+		});
+	};
+
+	o.approvePublicFigure = function(figure) {
+		if (figure) {
+			return $http.post('/public_figures/approve.json', { id: figure.id })
+			.then(function(response) {
+				return response.data.public_figure;
 			});
-			return d.promise;
-		};
+		}
+	};
 
-		o.getUser = function(id) {
-			var d = $q.defer();
-	  		$http.get('/users/' + id + '.json').success(function(data){
-	  			d.resolve(data.user);
-	  		});
-	  		return d.promise;
-	  	};
+	o.revokePublicFigure = function(figure) {
+		if (figure){
+			return $http.post('/public_figures/revoke.json', { id: figure.id })
+			.then(function(response) {
+				return response.data.public_figure;
+			});
+		}
+	};
 
-	  	o.getPublicFigure = function(id) {
-	  		var d = $q.defer();
-	  		$http.get('/public_figures/' + id + '.json').success(function(data){
-	  			d.resolve(data.public_figure);
-	  		});
-	  		return d.promise;
-	  	};
+	o.approveForFigures = function(user, figures) {
+		var fb_ids = figures.map(function(figure) {
+			return figure.fb_id;
+		});
+		
+		return $http.post('/users/approveForFigures.json', { user_id: user.id, fb_ids: fb_ids })
+		.then(function(response){
+			return response.data.user;
+		});
+	};
 
-	  	o.approvePublicFigure = function(figure) {
-	  		if (figure){
-	  			var d = $q.defer();
-	  			$http.post('/public_figures/approve.json', { id: figure.id }).success(function(data){
-	  				d.resolve(data.public_figure);
-	  			});
-	  			return d.promise;
-	  		}
-	  	};
+	o.revokeForFigures = function(user, figures) {
+		var fb_ids = figures.map(function(figure) {
+			return figure.fb_id;
+		});
 
-	  	o.revokePublicFigure = function(figure) {
-	  		if (figure){
-	  			var d = $q.defer();
-	  			$http.post('/public_figures/revoke.json', { id: figure.id }).success(function(data){
-	  				d.resolve(data.public_figure);
-	  			});
-	  			return d.promise;
-	  		}
-	  	};
+		return $http.post('/users/revokeForFigures.json',
+			{
+				user_id: user.id,
+				fb_ids: fb_ids
+			}
+		).then(function(response) {
+			return response.data.user;
+		});
+	};
 
-	  	o.approveForFigures = function(user,figures) {
-	  		var fb_ids = [];
-	  		for (var i=0; i<figures.length; i++) {
-	  			fb_ids.push(figures[i].fb_id);
-	  		}
-	  		var d = $q.defer();
-	  		$http.post('/users/approveForFigures.json', { user_id: user.id, fb_ids: fb_ids }).success(function(data){
-	  			d.resolve(data.user);
-	  		});
-	  		return d.promise;
-	  	};
+	o.approvedFiguresForUser = function(user) {
+		return user.proxies.filter(function(proxy) {
+			return proxy.approved;
+		});
+	}
 
-	  	o.revokeForFigures = function(user,figures) {
-	  		var fb_ids = [];
-	  		for (var i=0; i<figures.length; i++) {
-	  			fb_ids.push(figures[i].fb_id);
-	  		}
-	  		var d = $q.defer();
-	  		$http.post('/users/revokeForFigures.json', { user_id: user.id, fb_ids: fb_ids }).success(function(data){
-	  			d.resolve(data.user);
-	  		});
-	  		return d.promise;
-	  	};
+	o.requestedFiguresForUser = function(user) {
+		return user.proxies.filter(function(proxy) {
+			return !(proxy.approved);
+		});
+	}
 
-	  	o.approvedFiguresForUser = function(user) {
-	  		var figs = [];
-	        for (var i=0; i<user.proxies.length; i++){
-	            if (user.proxies[i].approved){
-	                figs.push(user.proxies[i]);
-	            }
-	        }
-	        return figs;
-	  	}
-
-	  	o.requestedFiguresForUser = function(user) {
-	  		var figs = [];
-	        for (var i=0; i<user.proxies.length; i++){
-	            if (!(user.proxies[i].approved)){
-	                figs.push(user.proxies[i]);
-	            }
-	        }
-	        return figs;
-	  	}
-
-	  	return o;
-	}]
-);
+  return o;
+}]);

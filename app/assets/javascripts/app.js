@@ -1,11 +1,27 @@
 'use strict';
 
-angular.module('washingtonApp', ['ui.router', 'ngMaterial', 'templates', 'ngMdIcons'])
-.config([
-'$stateProvider',
-'$urlRouterProvider',
-function($stateProvider, $urlRouterProvider) {
+angular.module('pw.app', ['ngMaterial',
+    'ngMdIcons',
+    'ngRoute',
+    'templates'
+])
+.config(['$routeProvider',
+function($routeProvider) {
 
+    var canvasStates = {
+        HOME: 'home',
+        POST: 'post',
+        PROFILE: 'profile',
+        PUBLICFIGURE: 'public-figure'
+    };
+
+    $routeProvider
+        .when('/', { canvasState: canvasStates.HOME })
+        .when('/posts/:id', { canvasState: canvasStates.POST })
+        .when('/profiles/:id', { canvasState: canvasStates.PROFILE })
+        .when('/publicfigures/:id', { canvasState: canvasStates.PUBLICFIGURE })
+        .otherwise({ redirectTo: '/' });
+/*
   $stateProvider
     .state('root', {
       abstract: true,
@@ -103,16 +119,18 @@ function($stateProvider, $urlRouterProvider) {
       }
     });
     $urlRouterProvider.otherwise('/');
+    */
     
 }])
-.run([
-    '$rootScope',
+.run(['$rootScope',
     'navService',
     'sessionService',
-    function($rootScope, navService, sessionService)
-    {
-      $rootScope.navigator = navService;
-      $rootScope.sessionInfo = sessionService.sessionInfo;
-      sessionService.loadSessionInfo();
-    }
-  ]);
+function($rootScope,
+         navService,
+         sessionService) {
+
+    $rootScope.navService = navService;
+    $rootScope.sessionInfo = sessionService.sessionInfo;
+    sessionService.loadSessionInfo();
+    
+}]);

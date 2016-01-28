@@ -1,12 +1,10 @@
 'use strict';
 
-angular.module('washingtonApp')
-.controller('PostViewCtrl', [
-'$scope',
-'$stateParams',
-'posts',
-'postPromise',
-function($scope, $stateParams, posts, postPromise){	
+angular.module('pw.app')
+.controller('PostViewCtrl', ['$scope',
+    'postPromise',
+function($scope,
+         postPromise){	
 
 	$scope.post = postPromise;
 

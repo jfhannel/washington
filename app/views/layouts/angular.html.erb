@@ -1,32 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Washington</title>
-  <%= stylesheet_link_tag    'application', media: 'all' %>
-  <%= javascript_include_tag 'application' %>
-  <%= csrf_meta_tags %>
+    <title>Washington</title>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <%= csrf_meta_tags %>
   
 </head>
-<body ng-app="washingtonApp">
+<body ng-app="pw.app">
 
-  <ui-view></ui-view>
+    <div layout="column">
+        <pw-home-bar></pw-home-bar>
+        <pw-app-canvas></pw-app-canvas>
+    </div>
+  
+    <script type="text/javascript">
+        var pw = {};
 
-<script type="text/javascript">
-    if (window.location.hash && window.location.hash == '#_=_') {
-        if (window.history && history.pushState) {
-            window.history.pushState("", document.title, window.location.pathname);
-        } else {
-            // Prevent scrolling by storing the page's current scroll offset
-            var scroll = {
-                top: document.body.scrollTop,
-                left: document.body.scrollLeft
-            };
-            window.location.hash = '';
-            // Restore the scroll offset, should be flicker free
-            document.body.scrollTop = scroll.top;
-            document.body.scrollLeft = scroll.left;
+        if (window.location.hash && window.location.hash == '#_=_') {
+            if (window.history && history.pushState) {
+                window.history.pushState("", document.title, window.location.pathname);
+            } else {
+                // Prevent scrolling by storing the page's current scroll offset
+                var scroll = {
+                    top: document.body.scrollTop,
+                    left: document.body.scrollLeft
+                };
+                window.location.hash = '';
+                // Restore the scroll offset, should be flicker free
+                document.body.scrollTop = scroll.top;
+                document.body.scrollLeft = scroll.left;
+            }
         }
-    }
-</script>
+    </script>
 </body>
 </html>

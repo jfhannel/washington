@@ -1,22 +1,24 @@
 'use strict';
 
-angular.module('washingtonApp')
-.factory('sessionService', [
-	'$q', 
-	'$http',
-	function($q, $http)
-	{
+angular.module('pw.app')
+.factory('sessionService', ['$http',
+function($http) {
 
-		var me = {};
-		me.sessionInfo = { user: null };
+	var sessionInfo = null;
 
-		me.loadSessionInfo = function()
-		{
-			return $http.get('/users/current.json').success(function(data){
-	      		me.sessionInfo.user = data.user;
-	    	});
-		};
+	function loadSessionInfo() {
+		return $http.get('/users/current.json').then(function(response) {
+      		sessionInfo = response.data;
+    	});
+	}
 
-		return me;
+	function getCurrentUser() {
+		return sessionInfo ? sessionInfo.user : '';
+	}
 
-	}]);
+	return {
+		getCurrentUser: getCurrentUser,
+		loadSessionInfo: loadSessionInfo
+	};
+
+}]);

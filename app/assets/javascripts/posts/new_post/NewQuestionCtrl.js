@@ -1,20 +1,20 @@
 'use strict';
 
-angular.module('washingtonApp')
-.controller('NewQuestionCtrl', [
-'$rootScope',
-'$scope',
-'$mdDialog',
-'$q',
-'$window',
-'posts',
-'search',
-function($rootScope, $scope, $mdDialog, $q, $window, posts, search){
+angular.module('pw.app')
+.controller('NewQuestionCtrl', ['$scope',
+    '$mdDialog',
+    '$window',
+    'posts',
+function($scope,
+         $mdDialog,
+         $window,
+         posts) {
 
 	var initQuestion = {
         title: "",
         body: ""
     };
+
     var fbFigureSearch = null;
 
     $scope.newQuestion = initQuestion;
