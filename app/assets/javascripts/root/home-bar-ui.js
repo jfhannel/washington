@@ -52,6 +52,7 @@ function($mdDialog,
         restrict: 'E',
         link: linker,
         replace: true,
-        templateUrl: 'root/_home-bar.html'
+        templateUrl: 'root/_home-bar.html',
+        controller: 'HomeBarController'
     };
 }]);

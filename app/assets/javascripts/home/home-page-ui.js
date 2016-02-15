@@ -5,7 +5,7 @@ angular.module('pw.app')
 function(posts) {
 
     function linker ($scope, $el) {
-        posts.getAll().then(function(posts) {
+        posts.getFeed().then(function(posts) {
             $scope.posts = posts;
         });
     }

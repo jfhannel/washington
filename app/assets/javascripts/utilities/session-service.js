@@ -2,23 +2,54 @@
 
 angular.module('pw.app')
 .factory('sessionService', ['$http',
-function($http) {
+    'pwConstants',
+function($http,
+         pwConstants) {
 
-	var sessionInfo = null;
+	var session = {};
 
 	function loadSessionInfo() {
-		return $http.get('/users/current.json').then(function(response) {
-      		sessionInfo = response.data;
-    	});
+        if (!!session.info) {
+            return;
+        } else {
+            return $http.get('/users/current.json').then(function(response) {
+                session.info = response.data;
+                return;
+            });
+        }
 	}
 
 	function getCurrentUser() {
-		return sessionInfo ? sessionInfo.user : '';
+        if (!!session.info) {
+            return session.info.user;
+        }
+
+		console.error('bad session info');
 	}
+
+    function isPublicFigureActive() {
+        return session.info.user.type === pwConstants.contributorTypes.PUBLIC_FIGURE;
+    }
+
+    function setActiveUser(user) {
+        console.log('setting active user', user);
+        if (!session.info) {
+            return;
+        }
+
+        if (!session.info.rootUser) {
+            session.info.rootUser = session.info.user;
+        }
+
+        session.info.user = user;
+    }
 
 	return {
 		getCurrentUser: getCurrentUser,
-		loadSessionInfo: loadSessionInfo
+        loadSessionInfo: loadSessionInfo,
+        session: session,
+        setActiveUser: setActiveUser,
+        isPublicFigureActive: isPublicFigureActive
 	};
 
 }]);

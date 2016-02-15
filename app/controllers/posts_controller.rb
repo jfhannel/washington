@@ -6,7 +6,7 @@ class PostsController < ApplicationController
 
 	def search
 	    query = params[:query]
-	    if query.empty?
+	    if query and query.empty?
 	      @results = []
 	    else
 	      @results = Post.where("body ILIKE ?", '%'+query+'%').all.to_a + Post.where("title ILIKE ?", '%'+query+'%').all.to_a

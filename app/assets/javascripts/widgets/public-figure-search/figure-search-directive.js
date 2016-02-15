@@ -6,6 +6,7 @@ function(searchService) {
             
         $scope.suggestedFigures = [];
         $scope.searchText = '';
+        
         $scope.removeFigure = function(figure) {
             var index = $scope.taggedFigures.indexOf(figure);
             if (index > -1) {
@@ -77,6 +78,6 @@ function(searchService) {
             searchFb: '='
         },
         link: linker,
-        templateUrl: 'profiles/public_figures/_search.html'
+        templateUrl: 'widgets/public-figure-search/_search.html'
     };
 }]);

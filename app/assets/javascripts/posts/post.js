@@ -2,7 +2,9 @@
 
 angular.module('pw.app')
 .factory('posts', ['$http',
-function($http) {
+    'sessionService',
+function($http,
+         sessionService) {
 	
 	var o = {};
  	
@@ -12,6 +14,8 @@ function($http) {
     		return response.data.posts;
     	});
   	};
+
+    o.getFeed = o.getAll;
 
   	o.getPost = function(id) {
   		return $http.get('/posts/' + id + '.json')

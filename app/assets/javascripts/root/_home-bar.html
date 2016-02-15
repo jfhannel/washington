@@ -1,4 +1,4 @@
-    <md-toolbar>
+    <md-toolbar ng-if="canvasState.length">
       <div class="md-toolbar-tools">
         <h2>
           <md-button ng-click="navService.goToHome()" aria-label="Go Home">
@@ -39,13 +39,9 @@
         </md-not-found>
       </md-autocomplete>
     </form>
-      <span flex></span>
-      <md-card>
-      <img class="md-avatar" ng-src="{{ sessionService.getCurrentUser().fb_profpic_url }}"></img>
-    </md-card>
-        <h3>
-          <span flex ng-bind="sessionService.getCurrentUser().name" ng-click="navService.goToCurrentUserProfile()"></span>
-        </h3>
+    <span flex></span>
+        <pw-user-selector></pw-user-selector>
+        <pw-notifications></pw-notifications>
         <md-button ng-click="promptNewQuestion()" class="md-icon-button" aria-label="Ask a question">
         <md-tooltip>
           New Post

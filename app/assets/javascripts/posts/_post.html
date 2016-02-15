@@ -1,5 +1,7 @@
 <md-content>
-<div layout="column">
+<div layout="row">
+    <div flex="20"></div>
+    <div flex="60" layout="column">
 	<div>
 		<a ng-click="navService.goToPost(post.id)"><h3 ng-bind="post.title"></h3></a>
 		<div layout="row" layout-align="center center">
@@ -15,7 +17,9 @@
 			    </md-card>
 			</div>
 			<div>
-				<h3 ng-bind="'by ' + post.author.name + ' on ' + post.created_at"></h3>
+				<h3 ng-bind="'by ' + post.author.name + ' on ' + post.created_at"
+					ng-click="navService.goToProfile(post.author.id)">
+				</h3>
 			</div>
 		</div>
 		<p ng-bind="post.body"></p>
@@ -23,6 +27,8 @@
 
 	<pw-post-bar post="post"></pw-post-bar>
 
+</div>
+<div flex="20"></div>
 </div>
 
 </md-content>

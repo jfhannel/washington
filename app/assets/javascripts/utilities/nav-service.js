@@ -21,8 +21,6 @@ function($location,
 		return function(id) {
 			var path = ROUTES[routeKey];
 
-			console.log(routeKey, path);
-
 			if (!path) {
 				return;
 			}
@@ -30,8 +28,6 @@ function($location,
 			if (!!id) {
 				path += '/' + id.toString();
 			}
-
-			console.log(path);
 
 			$location.path(path);
 		};
@@ -42,8 +38,7 @@ function($location,
 	}
 
 	me.goToCurrentUserProfile = function() {
-		console.log('aaa');
-		me.goToProfile(sessionService.getCurrentUser().id);
+		me.goToProfile(sessionService.session.info.user.id);
 	};
 
 	return me;

@@ -32,15 +32,6 @@
 				<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"></input>
 			</form>
 			</div>
-			<div flex="5"></div>
-			<div ng-show="(availableContributors.length != 1)">
-			  <md-input-container style="margin-right: 10px;">
-		        <label>as</label>
-		        <md-select ng-model="contributor">
-		          <md-option ng-repeat="con in availableContributors" value="{{con}}">{{con.name}}</md-option>
-		        </md-select>
-		      </md-input-container>
-	  		</div>
 	  	</div>
 
 		<div class="md-2-line" ng-repeat="comment in post.comments | orderBy :'-upvotes' ">
@@ -65,22 +56,13 @@
 	      </md-input-container>
 	      <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"></input>
 	    </form>
-	  </div>
-	  <div flex="5"></div>
-	  <div ng-show="(availableContributors.length != 1)">
-		  <md-input-container style="margin-right: 10px;">
-	        <label>as</label>
-	        <md-select ng-model="contributor">
-	          <md-option ng-repeat="con in availableContributors" value="{{con}}">{{con.name}}</md-option>
-	        </md-select>
-	      </md-input-container>
-  		</div>
+	  </div>	 
   	</div>
 
 	  <div class="md-2-line" ng-repeat="answer in post.answers | orderBy :'-upvotes' ">
 	    <div layout="row" align="center center">
 	      <md-card>
-	      <img class="md-avatar" ng-src="{{ sessionService.getCurrentUser().fb_profpic_url }}"></img>
+	      <img class="md-avatar" ng-src="{{ session.info.user.fb_profpic_url }}"></img>
 	    </md-card>
 	    <b ng-bind="answer.author.name+' at '+answer.created_at"></b>
 	    </div>

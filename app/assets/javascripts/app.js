@@ -15,111 +15,31 @@ function($routeProvider) {
         PUBLICFIGURE: 'public-figure'
     };
 
-    $routeProvider
+    var universalResolves = {
+        user: function(sessionService) {
+            return sessionService.loadSessionInfo();
+        }
+    };
+           
+    var customRouteProvider = angular.extend(
+        {},
+        $routeProvider,
+        {
+            when: function(path, route) {
+                route.resolve = (route.resolve) ? route.resolve : {};
+                angular.extend(route.resolve, universalResolves);
+                $routeProvider.when(path, route);
+                return this;
+            }
+        }
+    );
+
+    customRouteProvider
         .when('/', { canvasState: canvasStates.HOME })
         .when('/posts/:id', { canvasState: canvasStates.POST })
         .when('/profiles/:id', { canvasState: canvasStates.PROFILE })
         .when('/publicfigures/:id', { canvasState: canvasStates.PUBLICFIGURE })
         .otherwise({ redirectTo: '/' });
-/*
-  $stateProvider
-    .state('root', {
-      abstract: true,
-      url: '',
-      templateUrl: 'layout.html'
-    })  
-    .state('root.home', {
-      url: '',
-      resolve: {
-        postPromise: ['posts', function(posts){
-          return posts.getAll();
-        }]
-      },
-      views: {
-        'header': {
-          templateUrl: 'root/_root.html',
-          controller: 'AppCtrl'
-        },
-        'main': {
-          templateUrl: 'home/_home.html',
-          controller: 'HomeCtrl'
-        }
-      }
-    })
-    .state('root.home1', {
-      url: '/',
-      resolve: {
-        postPromise: ['posts', function(posts){
-          return posts.getAll();
-        }]
-      },
-      views: {
-        'header': {
-          templateUrl: 'root/_root.html',
-          controller: 'AppCtrl'
-        },
-        'main': {
-          templateUrl: 'home/_home.html',
-          controller: 'HomeCtrl'
-        }
-      }
-    })
-    .state('root.post', {
-      url: '/posts/:id',
-      resolve: {
-        postPromise: ['$stateParams', 'posts', function($stateParams, posts){
-          return posts.getPost($stateParams.id);
-        }]
-      },
-      views: {
-        'header': {
-          templateUrl: 'root/_root.html',
-          controller: 'AppCtrl'
-        },
-        'main': {
-          templateUrl: 'posts/_postView.html',
-          controller: 'PostViewCtrl'
-        }
-      }
-    })
-    .state('root.profile', {
-      url: '/profiles/:id',
-      resolve: {
-        userPromise: ['$stateParams', 'profiles', function($stateParams, profiles){
-          return profiles.getUser($stateParams.id);
-        }]
-      },
-      views: {
-        'header': {
-          templateUrl: 'root/_root.html',
-          controller: 'AppCtrl'
-        },
-        'main': {
-          templateUrl: 'profiles/users/_profile.html',
-          controller: 'ProfileCtrl'
-        }
-      }
-    })
-    .state('root.figure', {
-      url: '/publicfigures/:id',
-      resolve: {
-        figurePromise: ['$stateParams', 'profiles', function($stateParams, profiles){
-          return profiles.getPublicFigure($stateParams.id);
-        }]
-      },
-      views: {
-        'header': {
-          templateUrl: 'root/_root.html',
-          controller: 'AppCtrl'
-        },
-        'main': {
-          templateUrl: 'profiles/public_figures/_public_figure_profile.html',
-          controller: 'PublicFigureProfileCtrl'
-        }
-      }
-    });
-    $urlRouterProvider.otherwise('/');
-    */
     
 }])
 .run(['$rootScope',
@@ -130,7 +50,7 @@ function($rootScope,
          sessionService) {
 
     $rootScope.navService = navService;
-    $rootScope.sessionInfo = sessionService.sessionInfo;
-    sessionService.loadSessionInfo();
+    $rootScope.session = sessionService.session;
+    $rootScope.sessionService = sessionService;
     
 }]);

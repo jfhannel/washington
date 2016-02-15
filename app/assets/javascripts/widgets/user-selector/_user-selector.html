@@ -1,0 +1,10 @@
+<div layout="row" layout-padding>
+	<pw-user-icon user="session.info.user"></pw-user-icon>
+	<div>
+		<md-select ng-model="activeContributor" placeholder="{{ activeContributor.name }}" md-on-close="setActiveUser()">
+			<md-option ng-repeat="contributor in availableContributors" value="{{ contributor }}">
+				<span flex ng-bind="contributor.name"></span>
+			</md-option>
+		</md-select>
+	</div>
+</div>
