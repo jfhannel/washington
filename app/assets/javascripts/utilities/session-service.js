@@ -2,8 +2,10 @@
 
 angular.module('pw.app')
 .factory('sessionService', ['$http',
+    '$window',
     'pwConstants',
 function($http,
+         $window,
          pwConstants) {
 
 	var session = {};
@@ -13,43 +15,47 @@ function($http,
             return;
         } else {
             return $http.get('/users/current.json').then(function(response) {
-                session.info = response.data;
+                session.info = {};
+                session.info.rootUser = response.data.user.rootUser;
+                session.info.activeContributor = response.data.user.activeContributor;
                 return;
             });
         }
 	}
 
-	function getCurrentUser() {
+	function getRootUser() {
         if (!!session.info) {
-            return session.info.user;
+            return session.info.rootUser;
         }
-
-		console.error('bad session info');
 	}
 
-    function isPublicFigureActive() {
-        return session.info.user.type === pwConstants.contributorTypes.PUBLIC_FIGURE;
+    function getActiveContributor() {
+        return session.info.activeContributor
     }
 
-    function setActiveUser(user) {
-        console.log('setting active user', user);
-        if (!session.info) {
-            return;
-        }
+    function isPublicFigureActive() {
+        console.log('active',session.info.activeContributor.type === pwConstants.contributorTypes.PUBLIC_FIGURE);
+        return session.info.activeContributor.type === pwConstants.contributorTypes.PUBLIC_FIGURE;
+    }
 
-        if (!session.info.rootUser) {
-            session.info.rootUser = session.info.user;
-        }
-
-        session.info.user = user;
+    function setActiveContributor(contributor) {
+        $http.post(
+            '/users/current/setActiveContributor',
+            {
+                id: contributor.id,
+                type: contributor.type
+            }
+        ).then(function() {
+            $window.location.reload();
+        });
     }
 
 	return {
-		getCurrentUser: getCurrentUser,
+		getRootUser: getRootUser,
         loadSessionInfo: loadSessionInfo,
-        session: session,
-        setActiveUser: setActiveUser,
-        isPublicFigureActive: isPublicFigureActive
+        setActiveContributor: setActiveContributor,
+        isPublicFigureActive: isPublicFigureActive,
+        getActiveContributor: getActiveContributor
 	};
 
 }]);

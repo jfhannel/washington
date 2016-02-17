@@ -6,7 +6,12 @@ class PostsController < ApplicationController
 
 	def search
 	    query = params[:query]
-	    if query and query.empty?
+	    
+	    if query.nil?
+	    	query = ''
+	    end
+
+	    if query.empty?
 	      @results = []
 	    else
 	      @results = Post.where("body ILIKE ?", '%'+query+'%').all.to_a + Post.where("title ILIKE ?", '%'+query+'%').all.to_a
@@ -21,13 +26,12 @@ class PostsController < ApplicationController
 		current_user.posts << post;
 		params[:figures].each do |f|
 			if f[:id].nil?
-				fig = PublicFigure.createFromFBid(f[:fb_id],current_user[:fb_access_token])
+				fig = PublicFigure.createFromFBid(f[:fb_id], current_user[:fb_access_token])
 			else
 				fig = PublicFigure.find(f[:id])
 			end
 	
 			fig.posts << post
-			p fig
 			fig.save
 		end
 		@post = post

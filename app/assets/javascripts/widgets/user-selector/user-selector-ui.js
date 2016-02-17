@@ -11,23 +11,23 @@ function(navService,
     function linker($scope, $element, $attr) {
 
         var selfContributor = angular.extend(
-            sessionService.session.info.user,
+            sessionService.getRootUser(),
             {
                 type: pwConstants.contributorTypes.USER
             }
         );
 
         $scope.availableContributors = getAvailableContributors();
-        $scope.activeContributor = selfContributor;
+        $scope.activeContributor = sessionService.getActiveContributor();
 
-        $scope.setActiveUser = function() {
-            sessionService.setActiveUser(angular.fromJson($scope.activeContributor));
+        $scope.setActiveContributor = function() {
+            sessionService.setActiveContributor(angular.fromJson($scope.activeContributor));
         };
 
         function getAvailableContributors() {
             var contributors = [selfContributor];
             
-            var figures = profiles.approvedFiguresForUser(sessionService.session.info.user);
+            var figures = profiles.approvedFiguresForUser(sessionService.getRootUser());
 
             figures.forEach(function(figure) {
                 contributors.push(angular.extend(

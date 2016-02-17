@@ -3,7 +3,29 @@ class UsersController < ApplicationController
 
   def current
     @user = current_user
-    render 'show'
+    @activeContributor = @user.getActiveContributor
+    render 'contributors/show'
+  end
+
+  def notifications
+    user = User.find(params[:user_id])
+
+    posts = user.posts
+
+    @posts = []
+    posts.each do |post|
+      if post.user == user
+        @posts << post
+      end
+    end
+
+    render 'posts/index'
+  end
+
+  def setActiveContributor
+    current_user.setActiveContributor(params[:id], params[:type])
+
+    render nothing: true
   end
 
   def approveForFigures

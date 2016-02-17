@@ -17,7 +17,7 @@ function($route,
         restrict: 'E',
         link: linker,
         replace: true,
-        templateUrl: 'posts/_post.html'
+        templateUrl: 'posts/_post-page.html'
     };
 
 }]);

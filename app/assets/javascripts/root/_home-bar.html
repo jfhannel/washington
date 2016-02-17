@@ -40,13 +40,16 @@
       </md-autocomplete>
     </form>
     <span flex></span>
-        <pw-user-selector></pw-user-selector>
-        <pw-notifications></pw-notifications>
-        <md-button ng-click="promptNewQuestion()" class="md-icon-button" aria-label="Ask a question">
+      <pw-notifications></pw-notifications>
+        <md-button ng-click="promptNewQuestion()"
+                   ng-hide="sessionService.isPublicFigureActive()"
+                   class="md-icon-button"
+                   aria-label="Ask a question">
         <md-tooltip>
           New Post
         </md-tooltip>
           <ng-md-icon icon="add_box"></ng-md-icon>
         </md-button>
+        <pw-user-selector></pw-user-selector>
       </div>
     </md-toolbar>

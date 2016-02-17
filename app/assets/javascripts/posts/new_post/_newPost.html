@@ -10,6 +10,11 @@
     </md-input-container>
 
       <pw-figure-search tagged-figures="taggedFigures" search-fb="true" ></pw-figure-search>
+      <span ng-hide="taggedFigures.length > 0"
+            style="color:red"
+            class="required">
+        Your question must be addressed to at least 1 public figure.
+      </span>
     
   </md-content>
   <div class="md-actions"> 

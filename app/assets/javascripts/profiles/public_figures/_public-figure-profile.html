@@ -1,6 +1,6 @@
 <md-content>
 <div layout="column">
-	<div ng-show="session.info.user.is_admin">
+	<div ng-show="sessionService.getRootUser().is_admin">
 		<md-button ng-show="!figure.verified" ng-click="approvePublicFigure()" class="md-raised" ng-cloak>
 			Approve as public figure
 		</md-button>

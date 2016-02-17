@@ -3,23 +3,18 @@
 angular.module('pw.app')
 .factory('navService', ['$location',
 	'posts',
+	'pwConstants',
 	'sessionService',
 function($location,
 		 posts,
+		 pwConstants,
 		 sessionService) {
-
-	var ROUTES = {
-		Home: '/',
-        Post: '/posts',
-        Profile: '/profiles',
-        PublicFigure: '/publicfigures'		
-	};
 
 	var me = {};
 
 	function goToFunction(routeKey) {
 		return function(id) {
-			var path = ROUTES[routeKey];
+			var path = pwConstants.routes[routeKey];
 
 			if (!path) {
 				return;
@@ -33,12 +28,20 @@ function($location,
 		};
 	}
 
-	for (var routeKey in ROUTES) {
+	for (var routeKey in pwConstants.routes) {
 		me['goTo' + routeKey] = goToFunction(routeKey);
 	}
 
-	me.goToCurrentUserProfile = function() {
-		me.goToProfile(sessionService.session.info.user.id);
+	me.goToContributorProfile = function(contributor) {
+		if (contributor.type === pwConstants.contributorTypes.USER) {
+			me.goToProfile(contributor.id);
+		} else if (contributor.type === pwConstants.contributorTypes.PUBLIC_FIGURE) {
+			me.goToPublicFigure(contributor.id);
+		}
+	};
+
+	me.goToActiveContributorProfile = function() {
+		me.goToContributorProfile(sessionService.getActiveContributor());
 	};
 
 	return me;

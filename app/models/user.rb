@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include Utils
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
@@ -6,9 +7,10 @@ class User < ActiveRecord::Base
   has_many :posts
   has_many :answers, as: :contributor
   has_many :comments, as: :contributor
-  has_many :upvotes
+  has_many :upvotes, as: :contributor
   has_many :proxies, -> { distinct }
   has_many :public_figures, -> { distinct }, through: :proxies
+  has_and_belongs_to_many :notable_events, -> { distinct }
 
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
@@ -17,6 +19,46 @@ class User < ActiveRecord::Base
 
   def fb_token_good
     return (self.fb_access_token_expire - Time.now)/(60.0*60.0*24) > 1.0/24.0
+  end
+
+  def getRequestedProxies
+    proxies = []
+
+    self.proxies.each do |proxy|
+      if not proxy.approved
+        proxies << proxy
+      end
+    end
+
+    return proxies
+  end
+
+  def getActiveContributor
+    self.proxies.each do |proxy|
+      if proxy[:is_active]
+        contributor = toHash(proxy.public_figure)
+        contributor['type'] = 'PublicFigure'
+        return contributor
+      end
+    end
+
+    contributor = toHash(self)
+    contributor['type'] = 'User'
+
+    return contributor
+  end
+
+  def setActiveContributor(id, type)
+
+    self.proxies.each do |proxy|
+      if type == 'PublicFigure' and proxy.id == id
+        proxy[:is_active] = true
+      else
+        proxy[:is_active] = false
+      end
+      proxy.save
+    end
+
   end
 
   def self.find_for_oauth(auth, signed_in_resource = nil)

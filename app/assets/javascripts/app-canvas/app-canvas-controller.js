@@ -7,10 +7,11 @@ function ($route,
           $scope) {
 
     var canvasUrl = {
-        'home':            'app-canvas/pages/home.html',
-        'post':            'app-canvas/pages/post.html',
-        'profile':         'app-canvas/pages/profile.html',
-        'public-figure':    'app-canvas/pages/public-figure.html'
+        'home':             'app-canvas/pages/home.html',
+        'post':             'app-canvas/pages/post.html',
+        'profile':          'app-canvas/pages/profile.html',
+        'public-figure':    'app-canvas/pages/public-figure.html',
+        'notifications':    'app-canvas/pages/notifications.html'
     };
 
     $scope.canvasUrl = canvasUrl;

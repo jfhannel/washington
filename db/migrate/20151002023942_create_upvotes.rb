@@ -3,7 +3,8 @@ class CreateUpvotes < ActiveRecord::Migration
     create_table :upvotes do |t|
       t.integer :upvotable_id
       t.string :upvotable_type
-      t.references :user, index: true, foreign_key: true
+      t.integer :contributor_id
+      t.string :contributor_type
 
       t.timestamps null: false
     end

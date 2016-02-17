@@ -14,6 +14,14 @@ class PublicFiguresController < ApplicationController
     render 'show'
   end
 
+  def notifications
+    figure = PublicFigure.find(params[:public_figure_id])
+
+    @posts = figure.posts
+
+    render 'posts/index'
+  end
+
   def show
     @public_figure = PublicFigure.find(params[:id])
   end
@@ -31,7 +39,6 @@ class PublicFiguresController < ApplicationController
             type: :page,
             fields: ['id', 'name', 'category', 'about', 'picture', 'bio', 'affiliation', 'emails', 'is_verified', 'link', 'likes', 'best_page']
           })
-        p pages
         
         pages.each do |p|
           if @results.length > 10

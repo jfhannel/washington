@@ -12,7 +12,8 @@ function($routeProvider) {
         HOME: 'home',
         POST: 'post',
         PROFILE: 'profile',
-        PUBLICFIGURE: 'public-figure'
+        PUBLIC_FIGURE: 'public-figure',
+        NOTIFICATIONS: 'notifications'
     };
 
     var universalResolves = {
@@ -38,7 +39,8 @@ function($routeProvider) {
         .when('/', { canvasState: canvasStates.HOME })
         .when('/posts/:id', { canvasState: canvasStates.POST })
         .when('/profiles/:id', { canvasState: canvasStates.PROFILE })
-        .when('/publicfigures/:id', { canvasState: canvasStates.PUBLICFIGURE })
+        .when('/publicfigures/:id', { canvasState: canvasStates.PUBLIC_FIGURE })
+        .when('/notifications', { canvasState: canvasStates.NOTIFICATIONS })
         .otherwise({ redirectTo: '/' });
     
 }])
@@ -50,7 +52,6 @@ function($rootScope,
          sessionService) {
 
     $rootScope.navService = navService;
-    $rootScope.session = sessionService.session;
     $rootScope.sessionService = sessionService;
     
 }]);

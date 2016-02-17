@@ -2,11 +2,15 @@ class AnswersController < ApplicationController
 
 	def create
 		post = Post.find(params[:post_id])
+
 		answer = post.answers.new
 		answer.body = params[:body]
 		answer.contributor_id = params[:contributor][:id]
 		answer.contributor_type = params[:contributor][:type]
 		answer.save
+
+		NotableEvent.createForAnswer(answer)
+
 		@post = post
 		render 'posts/show'
 	end

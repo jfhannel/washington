@@ -17,7 +17,7 @@ function(profiles,
         $scope.makeComment = function(body){
             if (body){
                 $scope.newComment = '';
-                posts.comment($scope.post, { contributor: angular.fromJson(sessionService.getCurrentUser()), body: body })
+                posts.comment($scope.post, { contributor: angular.fromJson(sessionService.getActiveContributor()), body: body })
                     .then(function(post){ $scope.post = post; });
             }
         };
@@ -25,7 +25,7 @@ function(profiles,
         $scope.makeAnswer = function(body){
             if (body){
                 $scope.newAnswer = '';
-                posts.answer($scope.post, { contributor: angular.fromJson(sessionService.getCurrentUser()), body: body })
+                posts.answer($scope.post, { contributor: angular.fromJson(sessionService.getActiveContributor()), body: body })
                     .then(function(post){ $scope.post = post; });
             }
         };

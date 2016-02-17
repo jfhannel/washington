@@ -1,5 +1,5 @@
 json.posts @posts do |post|
-	json.partial! 'post', post: post
+	json.partial! 'posts/post', post: post
 	json.author do
 		json.partial! 'users/user', user: post.user
 	end

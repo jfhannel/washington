@@ -8,7 +8,14 @@ function() {
 		contributorTypes: {
 	        USER: 'User',
 	        PUBLIC_FIGURE: 'PublicFigure'
-	    }
+	    },
+        routes: {
+            Home: '/',
+            Post: '/posts',
+            Profile: '/profiles',
+            PublicFigure: '/publicfigures',
+            Notifications: '/notifications'
+        }
 	};
 	
 }]);

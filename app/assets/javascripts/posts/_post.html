@@ -1,7 +1,6 @@
 <md-content>
 <div layout="row">
-    <div flex="20"></div>
-    <div flex="60" layout="column">
+    <div layout="column" style="width: 100%">
 	<div>
 		<a ng-click="navService.goToPost(post.id)"><h3 ng-bind="post.title"></h3></a>
 		<div layout="row" layout-align="center center">
@@ -28,7 +27,5 @@
 	<pw-post-bar post="post"></pw-post-bar>
 
 </div>
-<div flex="20"></div>
 </div>
-
 </md-content>

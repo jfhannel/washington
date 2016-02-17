@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151109010531) do
+ActiveRecord::Schema.define(version: 20160216064925) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,12 +33,10 @@ ActiveRecord::Schema.define(version: 20151109010531) do
     t.string   "contributor_type"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.integer  "user_id"
     t.integer  "post_id"
   end
 
   add_index "comments", ["post_id"], name: "index_comments_on_post_id", using: :btree
-  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "identities", force: :cascade do |t|
     t.integer  "user_id"
@@ -49,6 +47,31 @@ ActiveRecord::Schema.define(version: 20151109010531) do
   end
 
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
+
+  create_table "notable_events", force: :cascade do |t|
+    t.integer  "post_id"
+    t.integer  "comment_id"
+    t.integer  "answer_id"
+    t.integer  "upvote_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "notable_events_public_figures", force: :cascade do |t|
+    t.integer "notable_event_id"
+    t.integer "public_figure_id"
+  end
+
+  add_index "notable_events_public_figures", ["notable_event_id"], name: "index_notable_events_public_figures_on_notable_event_id", using: :btree
+  add_index "notable_events_public_figures", ["public_figure_id"], name: "index_notable_events_public_figures_on_public_figure_id", using: :btree
+
+  create_table "notable_events_users", id: false, force: :cascade do |t|
+    t.integer "notable_event_id"
+    t.integer "user_id"
+  end
+
+  add_index "notable_events_users", ["notable_event_id"], name: "index_notable_events_users_on_notable_event_id", using: :btree
+  add_index "notable_events_users", ["user_id"], name: "index_notable_events_users_on_user_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.string   "body"
@@ -74,6 +97,7 @@ ActiveRecord::Schema.define(version: 20151109010531) do
     t.boolean  "approved",         default: false
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.boolean  "is_active",        default: false
   end
 
   add_index "proxies", ["public_figure_id"], name: "index_proxies_on_public_figure_id", using: :btree
@@ -98,12 +122,11 @@ ActiveRecord::Schema.define(version: 20151109010531) do
   create_table "upvotes", force: :cascade do |t|
     t.integer  "upvotable_id"
     t.string   "upvotable_type"
-    t.integer  "user_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.integer  "contributor_id"
+    t.string   "contributor_type"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
-
-  add_index "upvotes", ["user_id"], name: "index_upvotes_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
@@ -137,8 +160,6 @@ ActiveRecord::Schema.define(version: 20151109010531) do
 
   add_foreign_key "answers", "posts"
   add_foreign_key "comments", "posts"
-  add_foreign_key "comments", "users"
   add_foreign_key "identities", "users"
   add_foreign_key "posts", "users"
-  add_foreign_key "upvotes", "users"
 end

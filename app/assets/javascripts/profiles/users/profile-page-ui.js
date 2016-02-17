@@ -10,8 +10,12 @@ function($route,
 
     function linker ($scope, $el) {
 
-        $scope.user = sessionService.getCurrentUser();
         $scope.taggedFigures = [];
+
+        profiles.getUser($route.current.params.id)
+            .then(function(user) {
+                $scope.user = user;
+            });
 
         $scope.approveProxy = function(figures) {
             profiles.approveForFigures($scope.user, figures).then(function(user) {
@@ -28,30 +32,17 @@ function($route,
         };
 
         $scope.approvedFigures = function() {
+            if (!$scope.user) {
+                return [];
+            }
             return profiles.approvedFiguresForUser($scope.user);
         };
 
         $scope.requestedFigures = function() {
+            if (!$scope.user) {
+                return [];
+            }
             return profiles.requestedFiguresForUser($scope.user);
-        };
-
-        profiles.getPublicFigure($route.current.params.id)
-        .then(function(figure) {
-            $scope.figure = figure;
-        });
-
-        $scope.approvePublicFigure = function() {
-            profiles.approvePublicFigure($scope.figure)
-            .then(function(figure) {
-                $scope.figure = figure;
-            });
-        };
-
-        $scope.revokePublicFigure = function() {
-            profiles.revokePublicFigure($scope.figure)
-            .then(function(figure) {
-                $scope.figure = figure;
-            });
         };
     }
 

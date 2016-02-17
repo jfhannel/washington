@@ -1,5 +1,5 @@
 class Upvote < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :contributor, polymorphic: true
   belongs_to :upvotable, polymorphic: true
 
   def self.exists(upvotable, user)

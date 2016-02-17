@@ -1,7 +1,11 @@
 class PublicFigure < ActiveRecord::Base
     has_many :proxies, -> { distinct }
 	has_many :users, -> { distinct }, through: :proxies
+    has_many :answers, as: :contributor
+    has_many :comments, as: :contributor
+    has_many :upvotes, as: :contributor
 	has_and_belongs_to_many :posts, -> { distinct }
+    has_and_belongs_to_many :notable_events, -> { distinct }
 
 	def self.createFromFBid(fb_id, oauth_access_token)
 		figure = PublicFigure.create!
@@ -24,4 +28,5 @@ class PublicFigure < ActiveRecord::Base
         figure.save
         return figure
 	end
+
 end

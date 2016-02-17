@@ -6,15 +6,19 @@ Rails.application.routes.draw do
 
   get '/login', to: 'users#index'
 
-  get '/users/current', to: 'users#current'
   post '/posts/search', to: 'posts#search'
+
   post '/searchFigures', to: 'public_figures#searchFigures'
+
+  get '/users/current', to: 'users#current'
+  post '/users/current/setActiveContributor', to: 'users#setActiveContributor'
   post '/users/approveForFigures', to: 'users#approveForFigures'
   post '/users/revokeForFigures', to: 'users#revokeForFigures'
 
   post '/public_figures/approve', to: 'public_figures#approve'
   post '/public_figures/revoke', to: 'public_figures#revoke'
 
+  get '/proxies/requested', to: 'proxies#requested'
 
   resources :posts, only: [:create, :index, :show] do
     resources :comments, only: [:show, :create] do
@@ -34,8 +38,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users, only: [:show]
-  resources :public_figures, only: [:show]
+  resources :users, only: [:show] do
+    get 'notifications' => 'users#notifications'
+  end
+  resources :public_figures, only: [:show] do
+    get 'notifications' => 'public_figures#notifications'
+  end
   resources :proxies
 
   match "*path", to: "application#angular", via: :all

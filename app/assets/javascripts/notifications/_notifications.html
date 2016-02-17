@@ -1,0 +1,70 @@
+  <div layout="row">
+    <div flex="20"></div>
+    <div flex="60" layout="column">
+      <md-content>
+      <div ng-switch="sessionService.isPublicFigureActive()">
+
+        <div ng-switch-when="true">
+          <div layout="column" class="md-padding">
+          <md-subheader class="md-no-sticky"
+                        ng-bind="'Top Questions For ' + sessionService.getActiveContributor().name">
+          </md-subheader>
+          <md-divider ></md-divider>
+            <div class="md-2-line"
+                 ng-repeat="post in taggedPosts | orderBy :'-upvotes' ">
+              <pw-post post="post"></pw-post>
+            </div>
+        </div>
+      </div>
+
+      <div ng-switch-default>
+
+        <div layout="column" class="md-padding" ng-show="sessionService.getRootUser().is_admin">
+          <md-subheader class="md-no-sticky"
+                        ng-bind="'Open Proxy Requests'">
+          </md-subheader>
+          <md-divider ></md-divider>
+          
+            <div class="md-2-line"
+                 ng-repeat="request in requests">
+              <div layout="column">
+                <h3 ng-bind="'Proxy requests for ' + request.user.name"
+                    ng-click="navService.goToProfile(request.user.id)">
+                </h3>
+                <md-list>
+                    <md-list-item class="md-2-line" ng-repeat="proxy in request.proxies">
+                      <div layout="row" layout-align="space-between" ng-hide="proxy.approved" style="width: 50%">
+                        <md-button class="md-raised" ng-click="approveProxy(request.user, proxy); proxy.approved = true;">
+                          Approve
+                        </md-button>
+                        <div flex></div>
+                        <img ng-src="{{ proxy.fb_profpic_url }}" class="md-avatar" />
+                        <div class="md-list-item-text" layout-padding>
+                          <h3>{{ proxy.name }}</h3>
+                        </div>
+                    </div>
+                    </md-list-item>
+                  </md-list>
+              </div>
+            </div>                
+        </div>
+
+        <div layout="column" class="md-padding">
+          <md-subheader class="md-no-sticky"
+                        ng-bind="'Recent Activity'">
+          </md-subheader>
+          <md-divider ></md-divider>
+          
+            <div class="md-2-line"
+                 ng-repeat="post in activePosts | orderBy :'-upvotes' ">
+              <pw-post post="post"></pw-post>
+            </div>                
+        </div>
+
+      </div>
+
+    </div>
+  </md-content>
+</div>
+<div flex="20"></div>
+</div>
