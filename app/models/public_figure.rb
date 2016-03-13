@@ -5,7 +5,8 @@ class PublicFigure < ActiveRecord::Base
     has_many :comments, as: :contributor
     has_many :upvotes, as: :contributor
 	has_and_belongs_to_many :posts, -> { distinct }
-    has_and_belongs_to_many :notable_events, -> { distinct }
+    has_many :notable_events, :through => :notifications
+    has_many :notifications, :as => :contributor
 
 	def self.createFromFBid(fb_id, oauth_access_token)
 		figure = PublicFigure.create!

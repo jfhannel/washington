@@ -10,7 +10,8 @@ class User < ActiveRecord::Base
   has_many :upvotes, as: :contributor
   has_many :proxies, -> { distinct }
   has_many :public_figures, -> { distinct }, through: :proxies
-  has_and_belongs_to_many :notable_events, -> { distinct }
+  has_many :notable_events, :through => :notifications
+  has_many :notifications, :as => :contributor
 
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/

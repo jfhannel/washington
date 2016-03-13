@@ -1,33 +1,76 @@
 class NotableEvent < ActiveRecord::Base
-	has_and_belongs_to_many :public_figures, -> { distinct }
-	has_and_belongs_to_many :users, -> { distinct }
-	has_one :post
-	has_one :answer
-	has_one :upvote
-	has_one :comment
+	has_many :notifications
+	belongs_to :post
+	belongs_to :answer
+	belongs_to :upvote
+	belongs_to :comment
+
+	def self.createForPost(post)
+		event = NotableEvent.new
+
+		event.post = post
+
+		contributors = post.getRelevantContributors()
+		contributors.delete(post.user)
+		contributors.each do |contributor|
+			notification = Notification.new
+			notification.contributor = contributor
+			notification.notable_event = event
+			notification.save
+		end
+
+		event.save
+	end
+
+	def self.createForComment(comment)
+		event = NotableEvent.new
+
+		event.comment = comment
+
+		contributors = comment.post.getRelevantContributors()
+		contributors.delete(comment.contributor)
+		contributors.each do |contributor|
+			notification = Notification.new
+			notification.contributor = contributor
+			notification.notable_event = event
+			notification.save
+		end
+
+		event.save
+	end
+
+	def self.createForUpvote(upvote)
+		event = NotableEvent.new
+
+		event.upvote = upvote
+
+		contributors = upvote.post.getRelevantContributors()
+		contributors.delete(upvote.contributor)
+		contributors.each do |contributor|
+			notification = Notification.new
+			notification.contributor = contributor
+			notification.notable_event = event
+			notification.save
+		end
+
+		event.save
+	end
 
 	def self.createForAnswer(answer)
 		event = NotableEvent.new
 
 		event.answer = answer
 
-		answer.post.public_figures.each do |figure|
-			event.addContributor(figure)
+		contributors = answer.post.getRelevantContributors()
+		contributors.delete(answer.contributor)
+		contributors.each do |contributor|
+			notification = Notification.new
+			notification.contributor = contributor
+			notification.notable_event = event
+			notification.save
 		end
 
-		event.users << answer.post.user
-
-		answer.post.comments.each do |comment|
-			if comment.user != answer.user
-				event.users << user
-			end
-		end
-
-		answer.post.answers.each do |answer|
-		end
-
-		answer.post.upvotes.each do |upvote|
-		end
+		event.save
 	end
 
 	def sourceContributor()
@@ -42,10 +85,6 @@ class NotableEvent < ActiveRecord::Base
 		else
 			return nil
 		end
-	end
-
-	def addContributor(contributor)
-
 	end
 
 end

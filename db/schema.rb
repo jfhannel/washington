@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160216064925) do
+ActiveRecord::Schema.define(version: 20160313004013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,54 @@ ActiveRecord::Schema.define(version: 20160216064925) do
 
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
+  create_table "notable_event_answer", id: false, force: :cascade do |t|
+    t.integer "notable_event_id"
+    t.integer "answer_id"
+  end
+
+  add_index "notable_event_answer", ["answer_id"], name: "index_notable_event_answer_on_answer_id", using: :btree
+  add_index "notable_event_answer", ["notable_event_id"], name: "index_notable_event_answer_on_notable_event_id", using: :btree
+
+  create_table "notable_event_comment", id: false, force: :cascade do |t|
+    t.integer "notable_event_id"
+    t.integer "comment_id"
+  end
+
+  add_index "notable_event_comment", ["comment_id"], name: "index_notable_event_comment_on_comment_id", using: :btree
+  add_index "notable_event_comment", ["notable_event_id"], name: "index_notable_event_comment_on_notable_event_id", using: :btree
+
+  create_table "notable_event_post", id: false, force: :cascade do |t|
+    t.integer "notable_event_id"
+    t.integer "post_id"
+  end
+
+  add_index "notable_event_post", ["notable_event_id"], name: "index_notable_event_post_on_notable_event_id", using: :btree
+  add_index "notable_event_post", ["post_id"], name: "index_notable_event_post_on_post_id", using: :btree
+
+  create_table "notable_event_public_figure", id: false, force: :cascade do |t|
+    t.integer "notable_event_id"
+    t.integer "public_figure_id"
+  end
+
+  add_index "notable_event_public_figure", ["notable_event_id"], name: "index_notable_event_public_figure_on_notable_event_id", using: :btree
+  add_index "notable_event_public_figure", ["public_figure_id"], name: "index_notable_event_public_figure_on_public_figure_id", using: :btree
+
+  create_table "notable_event_upvote", id: false, force: :cascade do |t|
+    t.integer "notable_event_id"
+    t.integer "upvote_id"
+  end
+
+  add_index "notable_event_upvote", ["notable_event_id"], name: "index_notable_event_upvote_on_notable_event_id", using: :btree
+  add_index "notable_event_upvote", ["upvote_id"], name: "index_notable_event_upvote_on_upvote_id", using: :btree
+
+  create_table "notable_event_user", id: false, force: :cascade do |t|
+    t.integer "notable_event_id"
+    t.integer "user_id"
+  end
+
+  add_index "notable_event_user", ["notable_event_id"], name: "index_notable_event_user_on_notable_event_id", using: :btree
+  add_index "notable_event_user", ["user_id"], name: "index_notable_event_user_on_user_id", using: :btree
+
   create_table "notable_events", force: :cascade do |t|
     t.integer  "post_id"
     t.integer  "comment_id"
@@ -72,6 +120,16 @@ ActiveRecord::Schema.define(version: 20160216064925) do
 
   add_index "notable_events_users", ["notable_event_id"], name: "index_notable_events_users_on_notable_event_id", using: :btree
   add_index "notable_events_users", ["user_id"], name: "index_notable_events_users_on_user_id", using: :btree
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer  "contributor_id"
+    t.string   "contributor_type"
+    t.integer  "notable_event_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "notifications", ["notable_event_id"], name: "index_notifications_on_notable_event_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.string   "body"
@@ -161,5 +219,6 @@ ActiveRecord::Schema.define(version: 20160216064925) do
   add_foreign_key "answers", "posts"
   add_foreign_key "comments", "posts"
   add_foreign_key "identities", "users"
+  add_foreign_key "notifications", "notable_events"
   add_foreign_key "posts", "users"
 end

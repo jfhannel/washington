@@ -65,8 +65,7 @@ function(searchService) {
             });
 
             return figures.filter(function(figure, index, self) {
-                return self.lastIndexOf(figure) === index
-                    && alreadyTaggedIds.indexOf(figure.fb_id) === -1;
+                return alreadyTaggedIds.indexOf(figure.fb_id) === -1;
             });
         }
     }

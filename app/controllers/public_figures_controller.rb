@@ -62,6 +62,8 @@ class PublicFiguresController < ApplicationController
             end
           end
         end
+
+        @results = @results.uniq{|fig| fig[:fb_id]}
       end
     end
   end

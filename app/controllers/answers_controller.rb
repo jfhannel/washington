@@ -9,8 +9,6 @@ class AnswersController < ApplicationController
 		answer.contributor_type = params[:contributor][:type]
 		answer.save
 
-		NotableEvent.createForAnswer(answer)
-
 		@post = post
 		render 'posts/show'
 	end
